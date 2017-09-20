@@ -73,10 +73,15 @@ MotorControl m;
 
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  m.setSpeed(2, 0);
+  String s = Serial.readString();
+  if (s != "") {
+    m.setSpeed(1, s.substring(0,3).toInt());
+    m.setSpeed(2, s.substring(3,6).toInt());
+  }
 }
 
