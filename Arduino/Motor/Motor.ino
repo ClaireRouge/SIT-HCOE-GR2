@@ -78,14 +78,15 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  //String s = Serial.readString();
+  String s = Serial.readString();
+  Serial.println(s);
   //String s = "255 -255";
   //Serial.println(Serial.read());
   if (Serial.available() > 1) {
     //int i = 0;
     //for(;s.charAt(i) != ' ';i++); //sets i to space
     //Serial.println(Serial.read());
-    m.setSpeed(1, Serial.read());
-    m.setSpeed(2, Serial.read());
+    //m.setSpeed(1, Serial.read());
+    //m.setSpeed(2, Serial.read());
   }
 }
