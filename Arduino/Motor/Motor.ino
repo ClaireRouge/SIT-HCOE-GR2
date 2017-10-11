@@ -86,7 +86,7 @@ void loop() {
     //int i = 0;
     //for(;s.charAt(i) != ' ';i++); //sets i to space
     //Serial.println(Serial.read());
-    m.setSpeed(1, int(Serial.read()));
-    m.setSpeed(2, int(Serial.read()));
+    m.setSpeed(1, (int(Serial.read())-128)*2);
+    m.setSpeed(2, (int(Serial.read())-128)*2);
   }
 }
