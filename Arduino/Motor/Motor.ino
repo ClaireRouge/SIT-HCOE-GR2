@@ -73,17 +73,20 @@ MotorControl m;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  String s = Serial.readString();
   //String s = "255 -255";
-  if (s != "") {
-    int i = 0;
-    for(;s.charAt(i) != ' ';i++); //sets i to space
-    m.setSpeed(1, s.substring(0,i).toInt());
-    m.setSpeed(2, s.substring(i+1,s.length()).toInt());
+  //Serial.println(Serial.read());
+  if (Serial.available() > 1) {
+    //String s = Serial.readString();
+    //Serial.println(Serial.read());
+    //int i = 0;
+    //for(;s.charAt(i) != ' ';i++); //sets i to space
+    //Serial.println(Serial.read());
+    m.setSpeed(1, (int(Serial.read())-128)*2);
+    m.setSpeed(2, (int(Serial.read())-128)*2);
   }
 }

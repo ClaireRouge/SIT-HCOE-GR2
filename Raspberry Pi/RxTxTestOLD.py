@@ -1,4 +1,5 @@
 import serial
-ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial('/dev/ttyACM0', 115200)
 while 1:
-	ser.write(str(raw_input()))
+	s = map(int,raw_input().split())
+	ser.write(chr(int(s[0])/2+128) + chr(s[1]/2+128))
