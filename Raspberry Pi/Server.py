@@ -2,7 +2,7 @@ import socket
 
 # This part listens on the TCP_PORT for a message from the Gateway
 
-TCP_IP = '127.0.0.1'    # Static ref file???
+TCP_IP = '192.168.0.22'    # Static ref file???
 TCP_PORT = 313         # Static ref file???
 BUFFER_SIZE = 1024       # Static ref file???
 

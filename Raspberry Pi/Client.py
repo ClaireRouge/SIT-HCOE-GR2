@@ -1,6 +1,6 @@
 import socket
 
-TCP_IP = 'fe80::3246:9aff:fe2b:a742'    # Static ref file???
+TCP_IP = '192.168.0.22'    # Static ref file???
 TCP_PORT = 313         # Static ref file???
 BUFFER_SIZE = 1024       # Static ref file???
 
