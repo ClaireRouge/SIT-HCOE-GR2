@@ -7,7 +7,7 @@ TCP_PORT = 313         # Static ref file???
 BUFFER_SIZE = 256       # Static ref file???
 
 # Serial begin						Baud rate
-ser = serial.Serial('/dev/ttyACM0', 115200)
+#ser = serial.Serial('/dev/ttyACM0', 115200)
 
 # TCP init
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,6 +27,6 @@ while True:
 	else:
 		m2*=(1 - abs(controllerIn[0]))
 	print m1, m2
-	ser.write(chr(int(m1)/2+128) + chr(m2/2+128))
+	#ser.write(chr(int(m1)/2+128) + chr(m2/2+128))
 	conn.send("1")
 conn.close()
