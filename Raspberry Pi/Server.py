@@ -14,4 +14,4 @@ while True:
 	data = conn.recv(BUFFER_SIZE)
 	print data
 	#conn.send(data)
-	conn.close()
+conn.close()
