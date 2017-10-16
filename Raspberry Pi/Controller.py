@@ -29,7 +29,7 @@ while True:
 		if event.type == pygame.JOYAXISMOTION:
 			s.send(str(js.get_axis(0)) + " " +	# J1 X Rotation
 			str(js.get_axis(3)) + " " +			# J2 Y Crane angle
-			str(js.get_axis(2)))				# L2-R2 Speed
+			str(-js.get_axis(2)))				# L2-R2 Speed
 			s.recv(BUFFER_SIZE)
 		elif event.type == pygame.QUIT:
 			sys.exit()
