@@ -14,5 +14,5 @@ while True:
 	data = conn.recv(BUFFER_SIZE)
 	if not data: break
 	print data
-	conn.send(1)
+	conn.send("1")
 conn.close()
