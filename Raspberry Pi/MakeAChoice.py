@@ -1,5 +1,5 @@
 import math,numpy
-
+import sys
 class Track:
     """
     Class to make an estimated guess on the position of the robot
@@ -28,15 +28,18 @@ class Line:
         self.b = y_bar - self.a*x_bar
         self.f = lambda x: self.a*x+self.b
         SS_tot = sum([(y - y_bar)**2 for y in yi])
-        SS_res = sum([(yi[i]-self.f(xi[i]))**2 for i in range(len(yi))])
+        SS_res = sum([(y_bar-self.f(xi[i]))**2 for i in range(len(yi))])
 
         self.r2 = 1-SS_res/SS_tot
+        
+
 
 class Vector:
     def __init__(self,xcord,ycord):
         self.i = xcord
         self.j = ycord
-
+    def lengthSQ(self):
+        return i**2 + j**2
 
 
 def decide(direction,data):
@@ -55,7 +58,7 @@ def decide(direction,data):
 
 
 if __name__ == "__main__":
-    k = [[1,2],[2,4],[3,6],[4,20]]
+    k = [[2,3],[2,4],[2,5]]
     vecs = [Vector(*i) for i in k]
     line = Line(vecs)
     print line.r2,line.a,line.b
