@@ -9,9 +9,9 @@ BUFFER_SIZE = 1024       # Static ref file???
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
 while True:
-    s.listen(1)
-    conn, addr = s.accept()
-    data = conn.recv(BUFFER_SIZE)
+	s.listen(1)
+	conn, addr = s.accept()
+	data = conn.recv(BUFFER_SIZE)
 	print data
 	#conn.send(data)
-    conn.close()
+	conn.close()
