@@ -10,7 +10,6 @@ import math
 import linecross
 import numpy as np
 import FearThePoints
-
 size = (720,420)
 window = p.display.set_mode(size)
 myCar = None
@@ -42,6 +41,7 @@ def main():
     global myCar,myTrack
     delay = 100
     myTrack = Track()
+    #myCar = Car((10+75+400+150,210))
     myCar = Car((10+75,210))
     while True:
         eventhandle()
@@ -51,10 +51,6 @@ def main():
         p.display.flip()
         p.time.wait(delay)
 
-
-class Line(object):
-    def __init__(point1,point2):
-        pass
 
 
 #The track the car drives on
@@ -90,7 +86,7 @@ class Car(object):
         self.pos = map(float,pos)
         self.compass = Compass(self)
         #currently always faces upwards
-        self.prevPos = [(pos[self.posX],pos[self.posY]-1)]
+        self.prevPos = [(pos[0],pos[1]-1)]
         self.laser = Laser()
     def getData(self):
         return self.laser.getData(self.pos,self.compass.getData())
@@ -103,25 +99,28 @@ class Car(object):
             dist = math.sqrt((point[0]-self.pos[0])**2 + (point[1]-self.pos[1])**2)+0.0000001
             #print (point[1]-self.pos[1]),(point[0]-self.pos[0]),dist
             angle = (1,-1)[point[1]-self.pos[1] > 0]*math.acos((point[0]-self.pos[0])/dist)
-            data[i] = (dist,angle)
             #if abs((angle%180) + self.compass.getData())> 90:
             #    print angle%self.compass.getData()
             angle -= carDir
             prevangle = angle
-            if angle > math.pi/2+0.2:
+            if angle > math.pi/2 +0.1:
                 angle -= math.pi*2
-            elif angle < -math.pi/2-0.2:
+            elif angle < -math.pi/2-0.1:
                 angle += math.pi*2
-            if not -math.pi/2-0.2<angle<math.pi/2+0.2:
-                #print prevangle
-                #print prevangle, angle, self.compass.getData()
+
+            if angle < 0:
                 p.draw.line(window,(255,0,255),self.pos,point)
-            p.draw.line(window,(255,0,255),self.pos,point)
+            elif angle > 0:
+                p.draw.line(window,(0,255,255),self.pos,point)
+
+            #print angle
+            data[i] = (dist,angle)
         direction = FearThePoints.run(data)
         p2 = [0,0]
         p2[0] = self.pos[0] + math.sin((direction+carDir + math.pi/2))*800
         p2[1] = self.pos[1] + math.cos((direction+carDir + math.pi/2))*800
         p.draw.line(window,(0,255,0),self.pos,p2)
+        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*30,self.pos[1] + math.cos((direction+carDir + math.pi/2))*30)
 
     def pos():
         doc = "The pos property."
@@ -130,7 +129,7 @@ class Car(object):
         def fset(self, value):
             try:
                 self.prevPos.insert(0,self._pos)
-                if len(self.prevPos) > 5:
+                if len(self.prevPos) > 3:
                     del self.prevPos[-1]
             except AttributeError:
                 pass
@@ -152,13 +151,14 @@ class Car(object):
 class Laser(object):
     def __init__(self):
         self.range = (-math.pi/2,math.pi/2)
-        self.steps = 10
+        self.steps = 30
     def getData(self,pos,carDir):
         angleRange = (self.range[0] +carDir,self.range[1] +carDir )
         total = float(angleRange[1]-angleRange[0])
         stepResults = [0] * self.steps
         for i in xrange(self.steps):
             direction = total*i/self.steps
+
             p2 = [0,0]
             p2[0] = pos[0] + math.sin((direction+carDir))*800
             p2[1] = pos[1] + math.cos((direction+carDir))*800
