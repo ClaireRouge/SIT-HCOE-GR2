@@ -10,7 +10,7 @@ BUFFER_SIZE = 256       # Static ref file???
 ser = serial.Serial('/dev/ttyACM0', 115200)
 
 # TCP init
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
 s.listen(1)
 conn, addr = s.accept()

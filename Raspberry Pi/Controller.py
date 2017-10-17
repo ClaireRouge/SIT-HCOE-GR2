@@ -21,7 +21,7 @@ js = joysticks[0]
 js.init() # Should be useless
 
 # TCP init
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
 s.connect((TCP_IP, TCP_PORT))
 
 while True:
