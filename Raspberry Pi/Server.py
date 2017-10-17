@@ -2,7 +2,7 @@ import socket
 import serial
 
 ''' TCP Settings '''
-TCP_IP = 'fe80::ba27:ebff:fee0:2f83'    # Static ref file???
+TCP_IP = '10.192.136.127'    # Static ref file???
 TCP_PORT = 313         # Static ref file???
 BUFFER_SIZE = 256       # Static ref file???
 
@@ -10,7 +10,7 @@ BUFFER_SIZE = 256       # Static ref file???
 ser = serial.Serial('/dev/ttyACM0', 115200)
 
 # TCP init
-s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
 s.listen(1)
 conn, addr = s.accept()
