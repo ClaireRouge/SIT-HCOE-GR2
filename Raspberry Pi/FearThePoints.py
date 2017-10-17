@@ -27,8 +27,13 @@ class Point(object):
         self.length = float(length)
 
         #creating a weight. Can be changed later
-        self.weight = angle_dist * 1/(self.length**2) * 1/self.angle
-        print self.weight, self.angle
+
+        if self.angle != 0:
+            self.weight = math.cos(self.angle)*math.sin(self.angle)*angle_dist * 100/self.length
+        else:
+            self.weight = 0
+        #print self.angle,self.length,self.weight
+        #print self.weight, self.angle
 
 
 def run(point_data):
@@ -36,12 +41,15 @@ def run(point_data):
     point_data: list of touples containing (length,angle)
     """
     if not is_sorted(point_data,1):
-        raise NotImplementedError
+        sorted(point_data,key = lambda x:x[1])
     #They are now sorted
     points = get_points(point_data)
     direction = 0 #marks angel of direction
     for point in points:
         direction -= point.weight #go the opposite way
-    print direction
 
-run([(1,-90),(1,-30)])
+    direction = math.tanh(direction) * math.pi/4
+    print direction
+    return direction
+if __name__ == '__main__':
+    run([(1,-90),(1,-30)])
