@@ -25,13 +25,11 @@ class Point(object):
     def __init__(self,angle_dist,length,angle):
         self.angle = float(angle)
         self.length = float(length)
-
+        self.angle_dist = abs(angle_dist)
+        #print angle
         #creating a weight. Can be changed later
 
-        if self.angle != 0:
-            self.weight = math.cos(self.angle)*math.sin(self.angle)*angle_dist * 100/self.length
-        else:
-            self.weight = 0
+        self.weight = self.angle*math.cos(self.angle)*self.angle_dist * 10000/self.length**2
         #print self.angle,self.length,self.weight
         #print self.weight, self.angle
 
@@ -45,11 +43,30 @@ def run(point_data):
     #They are now sorted
     points = get_points(point_data)
     direction = 0 #marks angel of direction
-    for point in points:
-        direction -= point.weight #go the opposite way
+    #k = []
+    #for i,v in enumerate(points):
+    #    if v.weight > 0:
+    #        k.append(i)
+    #print k,len(k)
+    #k = []
+    #for i,v in enumerate(points):
+    #    if v.weight < 0:
+    #        k.append(i)
+    #print k,len(k)
+    #print len([x.weight for x in points if x.weight < 0]),len([x.weight for x in points if x.weight > 0])
+    right = sum([x.weight for x in points if x.weight < 0])
+    left =  sum([x.weight for x in points if x.weight > 0])
+    #for point in points:
+
+    nom = (abs(left),abs(right))[abs(left)<abs(right)]
+    #print left,right,nom
+    denom = (left,right)[abs(left)>abs(right)]
+    direction = (nom/denom) * 0.2
+    #print direction
+    #print direction, "1"
 
     direction = math.tanh(direction) * math.pi/4
-    print direction
+    #print direction, "2"
     return direction
 if __name__ == '__main__':
     run([(1,-90),(1,-30)])
