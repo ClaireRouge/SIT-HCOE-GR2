@@ -27,6 +27,6 @@ while True:
 	else:
 		m2*=(1 - abs(controllerIn[0]))
 	print m1, m2
-	ser.write(chr(int(m1)/2+128) + chr(m2/2+128))
+	ser.write(chr(int(m1)/2+128) + chr(int(m2)/2+128))
 	conn.send("1")
 conn.close()
