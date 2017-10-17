@@ -65,7 +65,7 @@ def run(point_data):
     #print direction
     #print direction, "1"
 
-    direction = math.tanh(direction) * math.pi/4
+    direction = math.tanh(direction) * math.pi/3
     #print direction, "2"
     return direction
 if __name__ == '__main__':
