@@ -2,7 +2,7 @@ import socket
 import serial
 
 ''' TCP Settings '''
-TCP_IP = '10.192.136.127'    # Static ref file???
+TCP_IP = 'fe80::ba27:ebff:fee0:2f83'    # Static ref file???
 TCP_PORT = 313         # Static ref file???
 BUFFER_SIZE = 256       # Static ref file???
 
