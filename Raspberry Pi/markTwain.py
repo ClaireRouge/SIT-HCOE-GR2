@@ -86,7 +86,7 @@ class Car(object):
         self.pos = map(float,pos)
         self.compass = Compass(self)
         #currently always faces upwards
-        self.prevPos = [(pos[0],pos[1]-1)]
+        self.prevPos = [(pos[0],pos[1]+1)]
         self.laser = Laser()
     def getData(self):
         return self.laser.getData(self.pos,self.compass.getData())
@@ -120,7 +120,7 @@ class Car(object):
         p2[0] = self.pos[0] + math.sin((direction+carDir + math.pi/2))*800
         p2[1] = self.pos[1] + math.cos((direction+carDir + math.pi/2))*800
         p.draw.line(window,(0,255,0),self.pos,p2)
-        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*30,self.pos[1] + math.cos((direction+carDir + math.pi/2))*30)
+        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*20,self.pos[1] + math.cos((direction+carDir + math.pi/2))*20)
 
     def pos():
         doc = "The pos property."
@@ -150,14 +150,14 @@ class Car(object):
 
 class Laser(object):
     def __init__(self):
-        self.range = (-math.pi/2,math.pi/2)
+        self.range = (-math.pi/3,math.pi/3)
         self.steps = 30
     def getData(self,pos,carDir):
         angleRange = (self.range[0] +carDir,self.range[1] +carDir )
         total = float(angleRange[1]-angleRange[0])
         stepResults = [0] * self.steps
         for i in xrange(self.steps):
-            direction = total*i/self.steps
+            direction = total*i/self.steps + math.pi/6
 
             p2 = [0,0]
             p2[0] = pos[0] + math.sin((direction+carDir))*800
