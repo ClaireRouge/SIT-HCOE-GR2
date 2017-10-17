@@ -2,7 +2,7 @@ import socket
 import serial
 
 ''' TCP Settings '''
-TCP_IP = '192.168.0.22'    # Static ref file???
+TCP_IP = '10.192.136.127'    # Static ref file???
 TCP_PORT = 313         # Static ref file???
 BUFFER_SIZE = 256       # Static ref file???
 
@@ -26,7 +26,7 @@ while True:
 		m1*=(1 - abs(controllerIn[0]))
 	else:
 		m2*=(1 - abs(controllerIn[0]))
-	print m1, m2
-	ser.write(chr(int(m1)/2+128) + chr(m2/2+128))
+	#print m1, m2
+	ser.write(chr(int(m1)/2+128) + chr(int(m2)/2+128))
 	conn.send("1")
 conn.close()

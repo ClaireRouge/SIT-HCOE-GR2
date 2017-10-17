@@ -9,10 +9,11 @@ import sys
 import math
 import linecross
 import numpy as np
-
+import FearThePoints
 size = (720,420)
 window = p.display.set_mode(size)
 myCar = None
+myTrack = None
 def eventhandle():
     for event in p.event.get():
 		if event.type == p.QUIT:
@@ -37,22 +38,19 @@ def eventhandle():
         myCar.pos = myCar.pos[0] + x,myCar.pos[1] + y
 
 def main():
-    global myCar
-    delay = 50
-    mytrack = Track()
+    global myCar,myTrack
+    delay = 100
+    myTrack = Track()
+    #myCar = Car((10+75+400+150,210))
     myCar = Car((10+75,210))
     while True:
         eventhandle()
-        mytrack.draw()
+        myTrack.draw()
         myCar.draw()
-        myCar.printdata()
+        myCar.updatePos()
         p.display.flip()
         p.time.wait(delay)
 
-
-class Line(object):
-    def __init__(point1,point2):
-        pass
 
 
 #The track the car drives on
@@ -88,9 +86,41 @@ class Car(object):
         self.pos = map(float,pos)
         self.compass = Compass(self)
         #currently always faces upwards
-        self.prevPos = [(pos[self.posX],pos[self.posY]-1)]
-    def getData(self,pos):
-        return self.laser.getData()
+        self.prevPos = [(pos[0],pos[1]+1)]
+        self.laser = Laser()
+    def getData(self):
+        return self.laser.getData(self.pos,self.compass.getData())
+    def updatePos(self):
+        points = self.getData()
+        data = [0]*len(points)
+        carDir = self.compass.getData()
+        for i,point in enumerate(points):
+            #print point
+            dist = math.sqrt((point[0]-self.pos[0])**2 + (point[1]-self.pos[1])**2)+0.0000001
+            #print (point[1]-self.pos[1]),(point[0]-self.pos[0]),dist
+            angle = (1,-1)[point[1]-self.pos[1] > 0]*math.acos((point[0]-self.pos[0])/dist)
+            #if abs((angle%180) + self.compass.getData())> 90:
+            #    print angle%self.compass.getData()
+            angle -= carDir
+            prevangle = angle
+            if angle > math.pi/2 +0.1:
+                angle -= math.pi*2
+            elif angle < -math.pi/2-0.1:
+                angle += math.pi*2
+
+            if angle < 0:
+                p.draw.line(window,(255,0,255),self.pos,point)
+            elif angle > 0:
+                p.draw.line(window,(0,255,255),self.pos,point)
+
+            #print angle
+            data[i] = (dist,angle)
+        direction = FearThePoints.run(data)
+        p2 = [0,0]
+        p2[0] = self.pos[0] + math.sin((direction+carDir + math.pi/2))*800
+        p2[1] = self.pos[1] + math.cos((direction+carDir + math.pi/2))*800
+        p.draw.line(window,(0,255,0),self.pos,p2)
+        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*20,self.pos[1] + math.cos((direction+carDir + math.pi/2))*20)
 
     def pos():
         doc = "The pos property."
@@ -99,7 +129,7 @@ class Car(object):
         def fset(self, value):
             try:
                 self.prevPos.insert(0,self._pos)
-                if len(self.prevPos) > 5:
+                if len(self.prevPos) > 3:
                     del self.prevPos[-1]
             except AttributeError:
                 pass
@@ -117,19 +147,45 @@ class Car(object):
     def printdata(self):
         print self.compass.getData()
 
+
 class Laser(object):
     def __init__(self):
-        self.range = (-90,90)
-        self.steps = 180
-
-    def getData(pos):
-        total = float(self.range[1]-self.range[0])
+        self.range = (-math.pi/3,math.pi/3)
+        self.steps = 30
+    def getData(self,pos,carDir):
+        angleRange = (self.range[0] +carDir,self.range[1] +carDir )
+        total = float(angleRange[1]-angleRange[0])
+        stepResults = [0] * self.steps
         for i in xrange(self.steps):
-            direction = total/steps * i
+            direction = total*i/self.steps + math.pi/6
+
             p2 = [0,0]
-            p2 = pos[0] + math.cos(direction/180*math.pi)*100
-            p2 = pos[1] + math.sin(direction/180*math.pi)*100
-            p.draw.line(self.surface,(255,0,255),pos,p2)
+            p2[0] = pos[0] + math.sin((direction+carDir))*800
+            p2[1] = pos[1] + math.cos((direction+carDir))*800
+            #print pos,p2
+            shortest = sys.maxint
+            point = None
+            for line in myTrack.lines:
+                hitPoint = linecross.calculateIntersectPoint(map(int,pos),map(int,p2),line[0],line[1])
+                if hitPoint == None: continue
+                dist = (hitPoint[0]-pos[0])**2 +(hitPoint[1]-pos[1])**2
+                if dist < shortest:
+                    shortest = dist
+                    point = hitPoint
+            if point != None:
+                stepResults[i] = point
+            '''
+            try:
+                p.draw.circle(window,(255,0,255),point,3)
+            except:
+                print map(int,pos),map(int,p2),i[0],i[1]
+                p.draw.line(window,(255,0,255),pos,map(int,p2))
+            '''
+        for i in xrange(len(stepResults)-1,-1,-1):
+            if stepResults[i] == 0:
+                del stepResults[i]
+        return stepResults
+
 
 class Compass(object):
     def __init__(self,car):
@@ -141,10 +197,10 @@ class Compass(object):
         #vektor b->a
         c_x,c_y = a_x-b_x, a_y-b_y
         #angle between vectors
-        print c_x,c_y
+        #print c_x,c_y
         try:
             cosV=(c_x/math.sqrt(c_x**2+c_y**2))
-            return (1,-1)[c_y > 0]*math.acos(cosV)/math.pi*180
+            return (1,-1)[c_y > 0]*math.acos(cosV)
         except ZeroDivisionError:
             return 0
 
