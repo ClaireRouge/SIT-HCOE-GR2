@@ -21,10 +21,10 @@ js.init() # Should be useless
 while True:
 	for event in pygame.event.get():
 		if event.type == pygame.JOYAXISMOTION:
-			controllerIn = {
+			controllerIn = [
 			js.get_axis(0), 	# J1 X Rotation
 			js.get_axis(3), 	# J2 Y Crane angle
-			-js.get_axis(2)}	# L2-R2 Speed
+			-js.get_axis(2)]	# L2-R2 Speed
 			speed = 255*controllerIn[2]
 			m1 = speed
 			m2 = speed
