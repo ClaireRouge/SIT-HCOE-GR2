@@ -1,5 +1,10 @@
 import pygame
 import sys
+import os
+
+# Pygame terminal fix
+os.environ["SDL_VIDEODRIVER"] = "dummy"
+pygame.init()
 
 ''' Pygame settings '''
 # Window settings
