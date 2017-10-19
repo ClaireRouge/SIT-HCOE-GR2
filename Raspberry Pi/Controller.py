@@ -1,10 +1,13 @@
 import pygame
 import sys
 import os
+import serial
 
 # Pygame terminal fix
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 pygame.init()
+
+ser = serial.Serial('/dev/ttyACM0', 115200)
 
 ''' Pygame settings '''
 # Window settings
@@ -32,7 +35,7 @@ while True:
 				m1*=(1 - abs(controllerIn[0]))
 			else:
 				m2*=(1 - abs(controllerIn[0]))
-			print m1, m2, js.get_numaxes()
-			#ser.write(chr(int(m1)/2+128) + chr(m2/2+128))
+			#print m1, m2, js.get_numaxes()
+			ser.write(chr(int(m1)/2+128) + chr(m2/2+128))
 		elif event.type == pygame.QUIT:
 			sys.exit()
