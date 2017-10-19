@@ -61,11 +61,11 @@ def run(point_data):
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     #print left,right,nom
     denom = (left,right)[abs(left)>abs(right)]
-    direction = (nom/denom) * 0.2
+    direction = (nom/denom) * 0.25
     #print direction
     #print direction, "1"
 
-    direction = math.tanh(direction) * math.pi/4
+    direction = math.tanh(direction) * math.pi/3
     #print direction, "2"
     return direction
 if __name__ == '__main__':

@@ -14,6 +14,14 @@ size = (720,420)
 window = p.display.set_mode(size)
 myCar = None
 myTrack = None
+
+#manual changing numbers:
+MAX_TRAIL = 4
+START_DIR = -1
+SPEED = 15
+RANGE = 2.5
+DELAY = 10
+
 def eventhandle():
     for event in p.event.get():
 		if event.type == p.QUIT:
@@ -39,7 +47,7 @@ def eventhandle():
 
 def main():
     global myCar,myTrack
-    delay = 100
+
     myTrack = Track()
     #myCar = Car((10+75+400+150,210))
     myCar = Car((10+75,210))
@@ -49,31 +57,47 @@ def main():
         myCar.draw()
         myCar.updatePos()
         p.display.flip()
-        p.time.wait(delay)
+        #p.time.wait(DELAY)
 
-
+def createBox(x,y,w,h):
+    r =[
+        ((x,y),(x+w,y)),
+        ((x,y),(x,y+h)),
+        ((x+w,y),(x+w,y+h)),
+        ((x,y+h),(x+w,y+h))
+        ]
+    return r
 
 #The track the car drives on
 class Track(object):
     def __init__(self):
         self.surface = p.Surface(size)
         self.surface.fill((0,0,0))
+        self.lines = []
         p.draw.rect(self.surface,(255,0,0),(0,0,size[0],size[1]),20)
         p.draw.rect(self.surface,(255,0,0),(160,160,400,100))
-        self.lines = (
-            #outer box
-            ((10,10),(710,10)),
-            ((10,10),(10,410)),
-            ((710,10),(710,410)),
-            ((10,410),(710,410)),
-            #inner box
-            ((160,160),(560,160)),
-            ((160,160),(160,260)),
-            ((560,160),(560,260)),
-            ((160,260),(560,260)),
-            )
-        #for i in self.lines:
-        #    p.draw.line(self.surface,(255,0,255),*i)
+        self.createBox(10,10,700,400)
+        self.createBox(160,160,400,100)
+
+        self.createCar(220,20,100,75)
+        self.createCar(620,20,50,25)
+        self.createCar(420,320,50,25)
+        self.createCar(220,320,75,50)
+        self.createCar(20,260,50,100)
+
+    def createBox(self, x,y,w,h):
+        r =[
+            ((x,y),(x+w,y)),
+            ((x,y),(x,y+h)),
+            ((x+w,y),(x+w,y+h)),
+            ((x,y+h),(x+w,y+h))
+            ]
+        self.lines.extend(r)
+
+    def createCar(self, x,y,w,h):
+        self.createBox(x,y,w,h)
+        p.draw.rect(self.surface,(0,255,0),(x,y,w,h))
+
     def draw(self):
         window.blit(self.surface,(0,0))
 
@@ -86,10 +110,11 @@ class Car(object):
         self.pos = map(float,pos)
         self.compass = Compass(self)
         #currently always faces upwards
-        self.prevPos = [(pos[0],pos[1]-1)]
+        self.prevPos = [(pos[0],pos[1]+START_DIR)]
         self.laser = Laser()
     def getData(self):
         return self.laser.getData(self.pos,self.compass.getData())
+
     def updatePos(self):
         points = self.getData()
         data = [0]*len(points)
@@ -120,7 +145,7 @@ class Car(object):
         p2[0] = self.pos[0] + math.sin((direction+carDir + math.pi/2))*800
         p2[1] = self.pos[1] + math.cos((direction+carDir + math.pi/2))*800
         p.draw.line(window,(0,255,0),self.pos,p2)
-        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*30,self.pos[1] + math.cos((direction+carDir + math.pi/2))*30)
+        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*SPEED,self.pos[1] + math.cos((direction+carDir + math.pi/2))*SPEED)
 
     def pos():
         doc = "The pos property."
@@ -129,7 +154,7 @@ class Car(object):
         def fset(self, value):
             try:
                 self.prevPos.insert(0,self._pos)
-                if len(self.prevPos) > 3:
+                if len(self.prevPos) >= MAX_TRAIL:
                     del self.prevPos[-1]
             except AttributeError:
                 pass
@@ -150,14 +175,14 @@ class Car(object):
 
 class Laser(object):
     def __init__(self):
-        self.range = (-math.pi/2,math.pi/2)
-        self.steps = 30
+        self.range = (-math.pi/RANGE,math.pi/RANGE)
+        self.steps = 60
     def getData(self,pos,carDir):
         angleRange = (self.range[0] +carDir,self.range[1] +carDir )
         total = float(angleRange[1]-angleRange[0])
         stepResults = [0] * self.steps
         for i in xrange(self.steps):
-            direction = total*i/self.steps
+            direction = total*i/self.steps + math.pi*(1.0/2.0-1.0/RANGE)
 
             p2 = [0,0]
             p2[0] = pos[0] + math.sin((direction+carDir))*800
@@ -174,13 +199,7 @@ class Laser(object):
                     point = hitPoint
             if point != None:
                 stepResults[i] = point
-            '''
-            try:
-                p.draw.circle(window,(255,0,255),point,3)
-            except:
-                print map(int,pos),map(int,p2),i[0],i[1]
-                p.draw.line(window,(255,0,255),pos,map(int,p2))
-            '''
+
         for i in xrange(len(stepResults)-1,-1,-1):
             if stepResults[i] == 0:
                 del stepResults[i]
