@@ -35,9 +35,9 @@ while True:
 				m1*=(1 - abs(controllerIn[0]))
 			else:
 				m2*=(1 - abs(controllerIn[0]))
-			print m1, m2
+			#print m1, m2
 			ser.write(chr(int(m1)/2+128) + chr(int(m2/2+128)))
-			ser.readline()
-			print chr(int(m1)/2+128) + chr(int(m2/2+128))
+			#ser.readline()
+			#print chr(int(m1)/2+128) + chr(int(m2/2+128))
 		elif event.type == pygame.QUIT:
 			sys.exit()
