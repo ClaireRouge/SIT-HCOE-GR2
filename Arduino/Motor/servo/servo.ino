@@ -20,13 +20,13 @@ void setup() {
 }
 
 void loop() {
-  
+  /*
   myservo.write(45);
   Serial.println("hi");
-  delay(500);
+  delay(300);
   myservo.write(135);
   Serial.println("hello");
-  delay(500);
+  delay(300);
   /*
   for (pos = 0; pos <= 135; pos += 1) { // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
