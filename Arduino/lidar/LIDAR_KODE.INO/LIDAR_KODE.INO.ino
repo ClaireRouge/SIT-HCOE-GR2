@@ -12,18 +12,15 @@
 
 #include <Wire.h>
 #include <LIDARLite.h>
-
+#include <Servo.h>
 // Globals
 LIDARLite lidarLite;
+Servo myservo;
+
 int cal_cnt = 0;
-int data[20][2];
-
-#include <Servo.h>
-
-Servo myservo;  // create servo object to control a servo
-// twelve servo objects can be created on most boards
-
-int pos = 0;    // variable to store the servo position
+int data[50][2];
+int curData = 0;
+int pos = 0; //servo pos
 
 
 void setup()
@@ -49,13 +46,16 @@ void distance(){
   // Increment reading counter
   cal_cnt++;
   cal_cnt = cal_cnt % 100;
-  Serial.print(dist);
-  Serial.println(" cm");
-
+  
+  data[curData][0] = dist;
+  data[curData][1] = pos;
+  curData++;
 }
 
 void sendData(){
-  
+  Serial.write(sizeof(int)*(curData)*2);
+  Serial.write((uint8_t*)data,sizeof(int)*(curData)*2);
+  curData = 0;
 }
 
 void loop()
@@ -71,4 +71,5 @@ void loop()
     distance();
     delay(13);                       // waits 15ms for the servo to reach the position
   }
+  sendData();
 }
