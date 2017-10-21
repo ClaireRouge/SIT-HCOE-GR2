@@ -5,9 +5,10 @@ import pygame
 corner_counter = 0
 CORNER_MAX = 10
 MAX_DIR = math.pi/3
-PRE_TANH_COEFF = 0.25
+PRE_TANH_COEFF = 0.2
 CORNER_WEIGHT = 0.0020
 START_DIRECTION = -1
+PART_BACKWARD = 2.5
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
@@ -65,25 +66,22 @@ def run(point_data):
     #print len([x.weight for x in points if x.weight < 0]),len([x.weight for x in points if x.weight > 0])
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])
-    #for point in points:
 
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
-    #print left,right,nom
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
-    #print left,right,direction
+
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
         corner_counter = CORNER_MAX
         pygame.time.wait(2000)
         #print corner_counter
     if corner_counter != 0:
         #its in a cornor
-        if CORNER_MAX-corner_counter < CORNER_MAX/2:
+        if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
             direction = math.pi
         else:
-            direction = (math.pi- math.pi/(CORNER_MAX))*START_DIRECTION
+            direction = (math.pi- math.pi/2*(PART_BACKWARD/CORNER_MAX))*START_DIRECTION
         corner_counter -= 1
-
     else:
         direction = math.tanh(direction) * MAX_DIR
     #print direction

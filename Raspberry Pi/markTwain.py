@@ -18,9 +18,9 @@ myTrack = None
 #manual changing numbers:
 MAX_TRAIL = 3
 START_DIR = -1
-SPEED = 15
-RANGE = 2.3
-DELAY = 0
+SPEED = 20
+RANGE = 2.6
+DELAY = 1000
 
 def eventhandle():
     for event in p.event.get():
@@ -141,7 +141,7 @@ class Car(object):
             #print angle
             data[i] = (dist,angle)
         direction = FearThePoints.run(data)
-
+        
         p2 = [0,0]
         p2[0] = self.pos[0] + math.sin((direction+carDir + math.pi/2))*800
         p2[1] = self.pos[1] + math.cos((direction+carDir + math.pi/2))*800
