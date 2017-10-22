@@ -52,7 +52,7 @@ def getData():
 if __name__ == '__main__':
     #main()
     #print getData(input(),input())
-
+    time.sleep(3)
     send(0,2)
     assert(getData() == [(3,0),(6,1),(0,2),(6,3),(7,3),(3,2),(2,1),(2,0)])
     send(1,2)
