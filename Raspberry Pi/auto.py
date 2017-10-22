@@ -35,10 +35,10 @@ def send(m1,m2):
     ser.write(chr(int(m1)/2+128) + chr(int(m2/2+128)))
 
 def getData():
-    nrbytes = ord(serial.read())
+    nrbytes = ord(ser.read())
     if nrbytes == 0:
         return []
-    datastring = serial.read(nrbytes)
+    datastring = ser.read(nrbytes)
 
     structstring = struct.unpack('<' + str(nrbytes) + 'h' , instr)
     assert(len(structstring) % 2 == 0)
