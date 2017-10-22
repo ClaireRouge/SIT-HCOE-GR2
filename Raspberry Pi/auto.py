@@ -40,8 +40,8 @@ def getData():
         return []
     datastring = ser.read(nrbytes)
 
-    structstring = struct.unpack('<' + str(nrbytes) + 'h' , datastring)
-    assert(len(structstring) % 2 == 0)
+    structstring = struct.unpack('<' + str(nrbytes)/2 + 'h' , datastring)
+    #assert(len(structstring) % 2 == 0)
     retdata = []
     for i in xrange(0,len(structstring),2):
         retdata.append((structstring[i],structstring[i+1]))
