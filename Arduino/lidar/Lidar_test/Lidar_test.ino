@@ -139,8 +139,8 @@ void sendData(){
   Serial.write(sizeof(int)*(curData)*2);
   Serial.write((uint8_t*)data,sizeof(int)*(curData)*2);
   */
-  Serial.write(sizeof(int)*7*2);
-  Serial.write((uint8_t*)testdata[m1],sizeof(int)*7*2);
+  Serial.write(sizeof(int)*8*2);
+  Serial.write((uint8_t*)testdata[m1],sizeof(int)*8*2);
   curData = 0;
 }
 
