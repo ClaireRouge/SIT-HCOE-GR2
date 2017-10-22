@@ -41,7 +41,7 @@ def getData():
     datastring = ser.read(nrbytes)
     print datastring
 
-    structtuple = struct.unpack('>' + str(nrbytes/2) + 'h' , datastring)
+    structtuple = struct.unpack('<' + str(nrbytes/2) + 'h' , datastring)
     print structtuple, type(structtuple), len(structtuple)
     #assert(len(structstring) % 2 == 0)
     retdata = []
