@@ -96,9 +96,9 @@ int curData = 0;
 int pos = 0; //servo pos
 
 int testdata[3][8][2] = {
+  {{664,0},{894,1},{673,2},{853,3},{23,3},{212,2},{856,1},{853,0}},
   {{3,0},{6,1},{0,2},{6,3},{7,3},{3,2},{2,1},{2,0}},
-  {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}},
-  {{664,0},{894,1},{673,2},{853,3},{23,3},{212,2},{856,1},{853,0}}
+  {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
 };
 int testnr = 0; 
 int m1 = 0;
@@ -169,7 +169,7 @@ void my_delay(int delaytime){
 
 void loop(){
   for (pos = 20; pos <= 160; pos += 4) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
-    //Serial.print(pos);
+    Serial.print(pos);
     // in steps of 1 degree
     //myservo.write(pos);              // tell servo to go to position in variable 'pos'
     distance();
@@ -177,7 +177,7 @@ void loop(){
   }
   for (pos = 160; pos >= 20; pos -= 4) { // goes from 180 degrees to 0 degrees
     //myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    //Serial.print(pos);
+    Serial.print(pos);
     distance();
     my_delay(12);                       // waits 15ms for the servo to reach the position
   }
