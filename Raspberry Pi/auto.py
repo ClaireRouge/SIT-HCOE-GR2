@@ -40,7 +40,7 @@ def getData():
         return []
     datastring = ser.read(nrbytes)
 
-    structstring = struct.unpack('<' + str(nrbytes) + 'h' , instr)
+    structstring = struct.unpack('<' + str(nrbytes) + 'h' , datastring)
     assert(len(structstring) % 2 == 0)
     retdata = []
     for i in xrange(0,len(structstring),2):
