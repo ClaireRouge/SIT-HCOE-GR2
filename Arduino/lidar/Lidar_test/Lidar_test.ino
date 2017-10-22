@@ -145,24 +145,23 @@ void sendData(){
 }
 
 void my_delay(int delaytime){
-  Serial.println("a")
+  //Serial.println("a")
   unsigned long starttime = millis();
-  Serial.println("b")
+  //Serial.println("b")
   if (Serial.available() > 1) {
-    Serial.println("c")
+    //Serial.println("c")
     //m.setSpeed(1, (int(Serial.read())-128)*2);
     //m.setSpeed(2, (int(Serial.read())-128)*2);
-    
     int m1 = (int(Serial.read())-128)*2;
-    Serial.println("d")
+    //Serial.println("d")
     int m2 = (int(Serial.read())-128)*2;
-    Serial.println("e")
+    //Serial.println("e")
     sendData();
-    Serial.println("f")
+    //Serial.println("f")
   }
   unsigned long endtime = millis();
   if(endtime -starttime < delaytime){
-    delay(delaytime - endtime -starttime);
+    delay(delaytime - (endtime -starttime));
   } else{
     digitalWrite(LED_BUILTIN, HIGH);
   }
