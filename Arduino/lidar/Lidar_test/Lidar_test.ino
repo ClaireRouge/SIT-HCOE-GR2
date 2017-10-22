@@ -169,7 +169,7 @@ void my_delay(int delaytime){
 
 void loop(){
   for (pos = 20; pos <= 160; pos += 4) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
-    Serial.print(pos);
+    //Serial.print(pos);
     // in steps of 1 degree
     //myservo.write(pos);              // tell servo to go to position in variable 'pos'
     distance();
@@ -177,7 +177,7 @@ void loop(){
   }
   for (pos = 160; pos >= 20; pos -= 4) { // goes from 180 degrees to 0 degrees
     //myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    Serial.print(pos);
+    //Serial.print(pos);
     distance();
     my_delay(12);                       // waits 15ms for the servo to reach the position
   }
