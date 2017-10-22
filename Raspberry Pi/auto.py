@@ -39,13 +39,14 @@ def getData():
     if nrbytes == 0:
         return []
     datastring = ser.read(nrbytes)
+    print datastring
 
-    structstring = struct.unpack('>' + str(nrbytes/2) + 'h' , datastring)
-    print structstring, type(structstring), len(structstring)
+    structtuple = struct.unpack('>' + str(nrbytes/2) + 'h' , datastring)
+    print structtuple, type(structtuple), len(structtuple)
     #assert(len(structstring) % 2 == 0)
     retdata = []
-    for i in xrange(0,len(structstring),2):
-        retdata.append((structstring[i],structstring[i+1]))
+    for i in xrange(0,len(structtuple),2):
+        retdata.append((structtuple[i],structtuple[i+1]))
     return retdata
 
 if __name__ == '__main__':
