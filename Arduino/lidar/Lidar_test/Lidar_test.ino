@@ -10,12 +10,12 @@
  * http://static.garmin.com/pumac/LIDAR_Lite_v3_Operation_Manual_and_Technical_Specifications.pdf
  */
 
-#include <Wire.h>
-#include <LIDARLite.h>
-#include <Servo.h>
+//#include <Wire.h>
+//#include <LIDARLite.h>
+//#include <Servo.h>
 // Globals
-LIDARLite lidarLite;
-Servo myservo;
+//LIDARLite lidarLite;
+//Servo myservo;
 
 #define BRAKE 0
 #define CW    1
@@ -108,15 +108,15 @@ void setup()
 {
   Serial.begin(115200); // Initialize serial connection to display distance readings
 
-  lidarLite.begin(0, true); // Set configuration to default and I2C to 400 kHz
-  lidarLite.configure(0); // Change this number to try out alternate configurations
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
-  myservo.write(45);
+  //lidarLite.begin(0, true); // Set configuration to default and I2C to 400 kHz
+  //lidarLite.configure(0); // Change this number to try out alternate configurations
+  //myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  //myservo.write(45);
   pinMode(LED_BUILTIN, OUTPUT); // for testing
 }
 
 void distance(){
-  int dist;
+  int dist = 0;
   // At the beginning of every 100 readings,
   // take a measurement with receiver bias correction
   if ( cal_cnt == 0 ) {
@@ -145,22 +145,20 @@ void sendData(){
 }
 
 void my_delay(int delaytime){
+  Serial.println("a")
   unsigned long starttime = millis();
+  Serial.println("b")
   if (Serial.available() > 1) {
+    Serial.println("c")
     //m.setSpeed(1, (int(Serial.read())-128)*2);
     //m.setSpeed(2, (int(Serial.read())-128)*2);
-    int m1 = (int(Serial.read())-128)*2;
-    int m2 = (int(Serial.read())-128)*2;
-    if (m1 == 1 && m2 != 2){
-      for(;;){
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(1000);
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(1000);
-      }
-    }
     
+    int m1 = (int(Serial.read())-128)*2;
+    Serial.println("d")
+    int m2 = (int(Serial.read())-128)*2;
+    Serial.println("e")
     sendData();
+    Serial.println("f")
   }
   unsigned long endtime = millis();
   if(endtime -starttime < delaytime){
@@ -172,13 +170,15 @@ void my_delay(int delaytime){
 
 void loop(){
   for (pos = 20; pos <= 160; pos += 4) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
+    Serial.print(pos);
     // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    //myservo.write(pos);              // tell servo to go to position in variable 'pos'
     distance();
     my_delay(12);                       // waits 15ms for the servo to reach the position
   }
   for (pos = 160; pos >= 20; pos -= 4) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    //myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    Serial.print(pos);
     distance();
     my_delay(12);                       // waits 15ms for the servo to reach the position
   }
