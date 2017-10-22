@@ -7,19 +7,24 @@ import time
 ser = serial.Serial('/dev/ttyACM0', 115200)
 
 data = []
+
 def main():
-    send(128,128)
+    send(0,0)
     time.sleep(1) #make sure arduino has collected data
 
     while True:
         newData = getData()
+        if newData != []:
 
-        for i in xrange(len(data)-2,0,-1):
-            if data[i][1] == newData[-1][1] and data[i-1][1] == newData[-2][1]:
-                break
-        data = data[i+1:]
+            for i in xrange(len(data)-2,0,-1):
+                if data[i][1] == newData[-1][1] and data[i-1][1] == newData[-2][1]:
+                    data = data[i+1:]
+                    break
+            else:
+                data = []
 
-        data.extend(newData)
+                data.extend(newData)
+
         direction = FearThePoints.run(map(lambda x: (x[0],x[1]/180.0*math.pi),data))
         m1 = (128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         m2 = (128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
@@ -31,6 +36,8 @@ def send(m1,m2):
 
 def getData():
     nrbytes = ord(serial.read())
+    if nrbytes == 0:
+        return []
     datastring = serial.read(nrbytes)
 
     structstring = struct.unpack('<' + str(nrbytes) + 'h' , instr)
@@ -41,5 +48,10 @@ def getData():
     return retdata
 
 if __name__ == '__main__':
-    main()
+    #main()
     #print getData(input(),input())
+
+    send(0,2)
+    assert(getData() == [(3,0),(6,1),(0,2),(6,3),(7,3),(3,2),(2,1),(2,0)])
+    send(1,2)
+    assert(getData() == [(664,0),(894,1),(673,2),(853,3),(23,3),(212,2),(856,1),(853,0)])
