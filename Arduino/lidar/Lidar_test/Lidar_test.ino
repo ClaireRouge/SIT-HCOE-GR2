@@ -120,9 +120,9 @@ void distance(){
   // At the beginning of every 100 readings,
   // take a measurement with receiver bias correction
   if ( cal_cnt == 0 ) {
-    dist = lidarLite.distance();      // With bias correction
+    //dist = lidarLite.distance();      // With bias correction
   } else {
-    dist = lidarLite.distance(false); // Without bias correction
+    //dist = lidarLite.distance(false); // Without bias correction
   }
 
   // Increment reading counter
