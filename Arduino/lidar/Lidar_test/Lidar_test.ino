@@ -11,10 +11,10 @@
  */
 
 #include <Wire.h>
-#include <LIDARLite.h>
+//#include <LIDARLite.h>
 #include <Servo.h>
 // Globals
-LIDARLite lidarLite;
+//LIDARLite lidarLite;
 Servo myservo;
 
 #define BRAKE 0
@@ -108,8 +108,8 @@ void setup()
 {
   Serial.begin(115200); // Initialize serial connection to display distance readings
 
-  lidarLite.begin(0, true); // Set configuration to default and I2C to 400 kHz
-  lidarLite.configure(0); // Change this number to try out alternate configurations
+  //lidarLite.begin(0, true); // Set configuration to default and I2C to 400 kHz
+  //lidarLite.configure(0); // Change this number to try out alternate configurations
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
   myservo.write(45);
   pinMode(LED_BUILTIN, OUTPUT); // for testing
@@ -151,14 +151,7 @@ void my_delay(int delaytime){
     //m.setSpeed(2, (int(Serial.read())-128)*2);
     int m1 = (int(Serial.read())-128)*2;
     int m2 = (int(Serial.read())-128)*2;
-    if (m1 == 1 && m2 != 2){
-      for(;;){
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(1000);
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(1000);
-      }
-    }
+    Serial.println(m1 + " : " + m2);
     
     sendData();
   }
