@@ -16,11 +16,11 @@ myCar = None
 myTrack = None
 
 #manual changing numbers:
-MAX_TRAIL = 4
+MAX_TRAIL = 3
 START_DIR = -1
-SPEED = 15
-RANGE = 2.5
-DELAY = 10
+SPEED = 20
+RANGE = 2.6
+DELAY = 1000
 
 def eventhandle():
     for event in p.event.get():
@@ -57,7 +57,7 @@ def main():
         myCar.draw()
         myCar.updatePos()
         p.display.flip()
-        #p.time.wait(DELAY)
+        p.time.wait(DELAY)
 
 def createBox(x,y,w,h):
     r =[
@@ -79,7 +79,7 @@ class Track(object):
         self.createBox(10,10,700,400)
         self.createBox(160,160,400,100)
 
-        self.createCar(220,20,100,75)
+        self.createCar(220,10,100,75)
         self.createCar(620,20,50,25)
         self.createCar(420,320,50,25)
         self.createCar(220,320,75,50)
@@ -141,12 +141,18 @@ class Car(object):
             #print angle
             data[i] = (dist,angle)
         direction = FearThePoints.run(data)
+        
         p2 = [0,0]
         p2[0] = self.pos[0] + math.sin((direction+carDir + math.pi/2))*800
         p2[1] = self.pos[1] + math.cos((direction+carDir + math.pi/2))*800
         p.draw.line(window,(0,255,0),self.pos,p2)
-        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*SPEED,self.pos[1] + math.cos((direction+carDir + math.pi/2))*SPEED)
 
+        self.pos = (self.pos[0] + math.sin((direction+carDir + math.pi/2))*SPEED,self.pos[1] + math.cos((direction+carDir + math.pi/2))*SPEED)
+        if abs(direction) > math.pi/2:
+            #going backwards
+            #print "hi"
+            p.time.delay(200)
+            self.prevPos = [(self.pos[0] + math.sin((direction+carDir + math.pi/2))*SPEED*2,self.pos[1] + math.cos((direction+carDir + math.pi/2))*SPEED*2)]
     def pos():
         doc = "The pos property."
         def fget(self):
