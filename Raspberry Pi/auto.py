@@ -50,10 +50,10 @@ def getData():
     return retdata
 
 if __name__ == '__main__':
-    #main()
+    main()
     #print getData(input(),input())
-    time.sleep(3)
-    send(0,2)
-    assert(getData() == [(664,0),(894,1),(673,2),(853,3),(23,3),(212,2),(856,1),(853,0)])
+    #time.sleep(3)
+    #send(0,2)
+    #assert(getData() == [(664,0),(894,1),(673,2),(853,3),(23,3),(212,2),(856,1),(853,0)])
     #send(2,2)
     #assert(getData() == [(664,0),(894,1),(673,2),(853,3),(23,3),(212,2),(856,1),(853,0)])

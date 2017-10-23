@@ -38,7 +38,7 @@ class Point(object):
         #print angle
         #creating a weight. Can be changed later
 
-        self.weight = self.angle*math.cos(self.angle)*self.angle_dist * 1/self.length**2
+        self.weight = (1,-1)[self.angle < 0]*math.cos(self.angle)*self.angle_dist * 1/self.length**2
         #print self.angle,self.length,self.weight
         #print self.weight, self.angle
 
@@ -73,7 +73,7 @@ def run(point_data):
 
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
         corner_counter = CORNER_MAX
-        pygame.time.wait(2000)
+        #pygame.time.wait(2000)
         #print corner_counter
     if corner_counter != 0:
         #its in a cornor
