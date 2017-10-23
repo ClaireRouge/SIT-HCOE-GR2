@@ -24,11 +24,11 @@ def main():
                 data = []
 
                 data.extend(newData)
-
+        print data
         direction = FearThePoints.run(map(lambda x: (x[0],x[1]/180.0*math.pi),data))
         m1 = (128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         m2 = (128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
-
+        print m1,m2
         send(m1,m2)
 
 def send(m1,m2):

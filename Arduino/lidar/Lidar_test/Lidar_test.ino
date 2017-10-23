@@ -91,7 +91,7 @@ class MotorControl {
 MotorControl m;
 
 int cal_cnt = 0;
-int data[50][2]; //rember to increase this size with the amount of sensors readings
+int data[100][2]; //rember to increase this size with the amount of sensors readings
 int curData = 0;
 int pos = 0; //servo pos
 
@@ -129,19 +129,20 @@ void distance(){
   cal_cnt++;
   cal_cnt = cal_cnt % 100;
   
-  data[curData][0] = dist;
+  data[curData][0] = random(1000);
   data[curData][1] = pos;
   curData++;
 }
 
 void sendData(){
-  /*
+  
   Serial.write(sizeof(int)*(curData)*2);
   Serial.write((uint8_t*)data,sizeof(int)*(curData)*2);
-  */
+  /*
   Serial.write(sizeof(int)*8*2);
   Serial.write((uint8_t*)testdata[m1],sizeof(int)*8*2);
   curData = 0;
+  */
 }
 
 void my_delay(int delaytime){

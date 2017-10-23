@@ -27,6 +27,8 @@
 class MotorControl {
     public:
     void setSpeed(int motor, int sped) {
+      if (sped > 255) sped = 255;
+      if (sped < -255) sped = -255;
       if (motor == 1) {
         if (sped < 0)
         {
