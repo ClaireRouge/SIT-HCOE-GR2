@@ -91,7 +91,7 @@ class MotorControl {
 MotorControl m;
 
 int cal_cnt = 0;
-int data[100][2]; //rember to increase this size with the amount of sensors readings
+int data[300][2]; //rember to increase this size with the amount of sensors readings
 int curData = 0;
 int pos = 0; //servo pos
 
@@ -113,6 +113,9 @@ void setup()
   //myservo.attach(9);  // attaches the servo on pin 9 to the servo object
   //myservo.write(45);
   pinMode(LED_BUILTIN, OUTPUT); // for testing
+  while(Serial.available() < 2){
+     delay(1); 
+  }
 }
 
 void distance(){
@@ -138,10 +141,11 @@ void sendData(){
   
   Serial.write(sizeof(int)*(curData)*2);
   Serial.write((uint8_t*)data,sizeof(int)*(curData)*2);
+  curData = 0;
   /*
   Serial.write(sizeof(int)*8*2);
   Serial.write((uint8_t*)testdata[m1],sizeof(int)*8*2);
-  curData = 0;
+ 
   */
 }
 

@@ -9,9 +9,9 @@ ser = serial.Serial('/dev/ttyACM0', 115200)
 data = []
 
 def main():
-    send(0,0)
-    time.sleep(1) #make sure arduino has collected data
 
+    time.sleep(1) #make sure arduino has collected data
+    send(0,0)
     while True:
         newData = getData()
         if newData != []:
