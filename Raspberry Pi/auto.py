@@ -12,6 +12,7 @@ def main():
 
     time.sleep(1) #make sure arduino has collected data
     send(0,0)
+    time.sleep(1)
     while True:
         newData = getData()
         if newData != []:
@@ -32,9 +33,11 @@ def main():
         send(m1,m2)
 
 def send(m1,m2):
+    print "wrote:", chr(int(m1)/2+128) + chr(int(m2/2+128))
     ser.write(chr(int(m1)/2+128) + chr(int(m2/2+128)))
 
 def getData():
+    print "hi"
     nrbytes = ord(ser.read())
     if nrbytes == 0:
         return []
