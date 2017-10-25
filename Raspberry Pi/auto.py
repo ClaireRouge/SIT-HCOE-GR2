@@ -12,6 +12,7 @@ def main():
 
     time.sleep(3) #make sure arduino has collected data
     send(0,0)
+    data = []
     while True:
         newData = getData()
         if newData != []:
@@ -24,8 +25,9 @@ def main():
                 data = []
 
                 data.extend(newData)
+        data = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         print data
-        direction = FearThePoints.run(map(lambda x: (x[0],x[1]/180.0*math.pi),data))
+        direction = FearThePoints.run(data)
         m1 = (128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         m2 = (128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         print m1,m2
