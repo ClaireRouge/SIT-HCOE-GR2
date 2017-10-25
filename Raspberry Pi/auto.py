@@ -38,7 +38,8 @@ def send(m1,m2):
     ser.write(chr(int(m1)/2+128) + chr(int(m2/2+128)))
 
 def getData():
-    nrbytes = ord(ser.read())
+    nrbytes = ser.read(2)
+    nrbytes = struct.unpack('<h' , nrbytes)
     if nrbytes == 0:
         return []
     datastring = ser.read(nrbytes)
