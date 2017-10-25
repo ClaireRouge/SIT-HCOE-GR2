@@ -20,6 +20,10 @@ def main():
 
             for i in xrange(len(data)-2,0,-1): #starts at next to last element
                 print i
+                print data[i][1]
+                print  newData[-1][1]
+                print data[i-1][1]
+                print newData[-2][1]
                 if data[i][1] == newData[-1][1] and data[i-1][1] == newData[-2][1]:
                     data = data[i+1:]
                     break
@@ -32,7 +36,7 @@ def main():
         send(m1,m2)
 
 def send(m1,m2):
-    print "wrote:", chr(int(m1)/2+128) + chr(int(m2/2+128))
+    #print "wrote:", chr(int(m1)/2+128) + chr(int(m2/2+128))
     ser.write(chr(int(m1)/2+128) + chr(int(m2/2+128)))
 
 def getData():
@@ -41,7 +45,7 @@ def getData():
     if nrbytes == 0:
         return []
     datastring = ser.read(nrbytes)
-    print nrbytes
+    #print nrbytes
 
     structtuple = struct.unpack('<' + str(nrbytes/2) + 'h' , datastring)
     #print structtuple, type(structtuple), len(structtuple)
