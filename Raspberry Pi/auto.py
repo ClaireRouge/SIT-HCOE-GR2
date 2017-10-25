@@ -18,13 +18,8 @@ def main():
         if newData != []:
             data.extend(newData)
 
-            for i in xrange(len(data)-2,0,-1): #starts at next to last element
-                print i
-                print data[i][1]
-                print  newData[-1][1]
-                print data[i-1][1]
-                print newData[-2][1]
-                if data[i][1] == newData[-1][1] and data[i-1][1] == newData[-2][1]:
+            for i in xrange(len(data)-len(newData),0,-1): #starts at next to last element
+                if data[i][1] == data[-1][1] and data[i-1][1] == data[-2][1]:
                     data = data[i+1:]
                     break
         print data
