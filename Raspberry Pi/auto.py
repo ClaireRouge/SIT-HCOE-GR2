@@ -17,7 +17,9 @@ def main():
         newData = getData()
         if newData != []:
             data.extend(newData)
+
             for i in xrange(len(data)-2,0,-1): #starts at next to last element
+                print i
                 if data[i][1] == newData[-1][1] and data[i-1][1] == newData[-2][1]:
                     data = data[i+1:]
                     break
