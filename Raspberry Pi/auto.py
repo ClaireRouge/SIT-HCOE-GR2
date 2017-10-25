@@ -16,18 +16,14 @@ def main():
     while True:
         newData = getData()
         if newData != []:
-
-            for i in xrange(len(data)-2,0,-1):
+            data.extend(newData)
+            for i in xrange(len(data)-2,0,-1): #starts at next to last element
                 if data[i][1] == newData[-1][1] and data[i-1][1] == newData[-2][1]:
                     data = data[i+1:]
                     break
-            else:
-                data = []
-
-                data.extend(newData)
-        data = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
-        #print data
-        direction = FearThePoints.run(data)
+        print data
+        senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
+        direction = FearThePoints.run(senddata)
         m1 = (128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         m2 = (128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         #print m1,m2
