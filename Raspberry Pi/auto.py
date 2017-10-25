@@ -26,11 +26,11 @@ def main():
 
                 data.extend(newData)
         data = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
-        print data
+        #print data
         direction = FearThePoints.run(data)
         m1 = (128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         m2 = (128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
-        print m1,m2
+        #print m1,m2
         send(m1,m2)
 
 def send(m1,m2):
@@ -42,10 +42,10 @@ def getData():
     if nrbytes == 0:
         return []
     datastring = ser.read(nrbytes)
-    print datastring
+    print nrbytes
 
     structtuple = struct.unpack('<' + str(nrbytes/2) + 'h' , datastring)
-    print structtuple, type(structtuple), len(structtuple)
+    #print structtuple, type(structtuple), len(structtuple)
     #assert(len(structstring) % 2 == 0)
     retdata = []
     for i in xrange(0,len(structtuple),2):
