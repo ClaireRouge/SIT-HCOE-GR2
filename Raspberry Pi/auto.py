@@ -39,7 +39,7 @@ def send(m1,m2):
 
 def getData():
     nrbytes = ser.read(2)
-    nrbytes = struct.unpack('<h' , nrbytes)
+    nrbytes = struct.unpack('<h' , nrbytes)[0]
     if nrbytes == 0:
         return []
     datastring = ser.read(nrbytes)
