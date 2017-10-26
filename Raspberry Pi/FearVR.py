@@ -6,11 +6,11 @@ corner_counter = 0
 CORNER_MAX = 100
 MAX_DIR = math.pi/3
 PRE_TANH_COEFF = 0.2
-CORNER_WEIGHT = 0.0020
+CORNER_WEIGHT = 0.002
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.0005
-MAX_SPEED = 0.7
+SPEEDCOEF = 0.0004
+MAX_SPEED = 0.4
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
@@ -58,24 +58,16 @@ def run(point_data):
     #They are now sorted
     points = get_points(point_data)
     direction = 0 #marks angel of direction
-    #k = []
-    #for i,v in enumerate(points):
-    #    if v.weight > 0:
-    #        k.append(i)
-    #print k,len(k)
-    #k = []
-    #for i,v in enumerate(points):
-    #    if v.weight < 0:
-    #        k.append(i)
-    #print k,len(k)
-    #print len([x.weight for x in points if x.weight < 0]),len([x.weight for x in points if x.weight > 0])
+
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])
 
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
-    speed = math.tanh(SPEEDCOEF/(abs(left)+abs(right)))*MAX_SPEED
+    softsign_x =  SPEEDCOEF/(abs(left)+abs(right))
+    print softsign_x
+    speed = softsign_x/(1+abs(softsign_x))*MAX_SPEED
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
 
         corner_counter = CORNER_MAX
@@ -83,12 +75,12 @@ def run(point_data):
         #print corner_counter
     if corner_counter != 0:
         #its in a cornor
-        speed = 0.3
+        speed = 0.25
         if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
             direction = math.pi
             print "hi",direction
         else:
-            direction = (math.pi/2)*START_DIRECTION
+            direction = (math.pi/2 + 0.1)*START_DIRECTION
             print "hello",direction
         corner_counter -= 1
     else:
