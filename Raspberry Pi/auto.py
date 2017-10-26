@@ -10,7 +10,7 @@ data = []
 
 def main():
 
-    time.sleep(3) #make sure arduino has collected data
+    time.sleep(3)
     send(0,0)
     data = []
     while True:
@@ -25,7 +25,7 @@ def main():
                     break
         print data
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
-        speed,direction = FearThePoints.run(senddata)
+        speed,direction = FearVR.run(senddata)
         m1 = speed*(128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         m2 = speed*(128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         #print m1,m2
