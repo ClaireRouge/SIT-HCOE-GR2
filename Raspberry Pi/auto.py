@@ -8,6 +8,8 @@ ser = serial.Serial('/dev/ttyACM0', 115200)
 
 data = []
 
+MAX_SPEED = 0.4
+
 def main():
 
     time.sleep(3)
@@ -24,8 +26,14 @@ def main():
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         speed,direction = FearVR.run(senddata)
         #print speed,direction
-        m1 = speed*(128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
-        m2 = speed*(128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
+        #m1 = speed*(128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
+        #m2 = speed*(128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
+        a = (255-2*speed)/((math.pi**2)/2)
+        b = 255/math.pi
+        c = speed
+        m1 = a*direction**2 + b*direction + c
+        m2 = a*direction**2 - b*direction + c
+        print m1,m2
         #print m1,m2
         send(m1,m2)
 
@@ -52,10 +60,9 @@ def getData():
 if __name__ == '__main__':
     try:
         main()
-    except KeyboardInterrupt:
-        send(0,0)
-        print "send 0"
-        time.sleep(1)
+    finally:
+        ser = serial.Serial('/dev/ttyACM0', 115200)
+        time.sleep(3)
     #print getData(input(),input())
     #time.sleep(3)
     #send(0,2)

@@ -4,12 +4,12 @@ import pygame
 
 corner_counter = 0
 CORNER_MAX = 100
-MAX_DIR = math.pi/3
-PRE_TANH_COEFF = 0.2
-CORNER_WEIGHT = 0.002
+MAX_DIR = math.pi/2
+PRE_TANH_COEFF = 0.25
+CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.0004
+SPEEDCOEF = 0.006
 MAX_SPEED = 0.4
 
 def is_sorted(target,sortnum):
@@ -40,7 +40,7 @@ class Point(object):
         #print angle
         #creating a weight. Can be changed later
 
-        self.weight = (1,-1)[self.angle < 0]*math.cos(self.angle)*self.angle_dist * 1/self.length**2
+        self.weight = (1,-1)[self.angle < 0]*math.cos(self.angle)*self.angle_dist * 1/self.length**3
         #print self.angle,self.length,self.weight
         #print self.weight, self.angle
 
@@ -66,7 +66,6 @@ def run(point_data):
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
     softsign_x =  SPEEDCOEF/(abs(left)+abs(right))
-    print softsign_x
     speed = softsign_x/(1+abs(softsign_x))*MAX_SPEED
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
 
@@ -78,10 +77,10 @@ def run(point_data):
         speed = 0.25
         if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
             direction = math.pi
-            print "hi",direction
+            #print "hi",direction
         else:
             direction = (math.pi/2 + 0.1)*START_DIRECTION
-            print "hello",direction
+            #print "hello",direction
         corner_counter -= 1
     else:
         direction = math.tanh(direction) * MAX_DIR
