@@ -9,7 +9,7 @@ PRE_TANH_COEFF = 0.2
 CORNER_WEIGHT = 0.0020
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.001
+SPEEDCOEF = 0.00001
 
 
 def is_sorted(target,sortnum):
@@ -88,7 +88,7 @@ def run(point_data):
             direction = math.pi
             print "hi",direction
         else:
-            direction = (math.pi- math.pi/2*(PART_BACKWARD/CORNER_MAX))*START_DIRECTION
+            direction = (math.pi/2)*START_DIRECTION
             print "hello",direction
         corner_counter -= 1
     else:
