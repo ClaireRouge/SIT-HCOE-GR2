@@ -26,6 +26,7 @@ def main():
         print data
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         speed,direction = FearVR.run(senddata)
+        print speed,direction
         m1 = speed*(128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         m2 = speed*(128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         print m1,m2
