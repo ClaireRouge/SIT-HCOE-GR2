@@ -53,7 +53,7 @@ if __name__ == '__main__':
     try:
         main()
     finally:
-        send(0,0)
+        ser = serial.Serial('/dev/ttyACM0', 115200)
         time.sleep(1)
     #print getData(input(),input())
     #time.sleep(3)
