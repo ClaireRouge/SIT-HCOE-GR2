@@ -31,7 +31,7 @@ def main():
 
 def send(m1,m2):
     #print "wrote:", chr(int(m1)/2+128) + chr(int(m2/2+128))
-    ser.write(chr(int(m1)/2+128) + chr(int(m2/2+128)))
+    ser.write(chr(int(-m1)/2+128) + chr(int(-m2)/2+128))
 
 def getData():
     nrbytes = ser.read(2)
