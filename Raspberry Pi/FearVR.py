@@ -40,7 +40,7 @@ class Point(object):
         #print angle
         #creating a weight. Can be changed later
 
-        self.weight = (1,-1)[self.angle < 0]*math.cos(self.angle)*self.angle_dist * 1/self.length**2
+        self.weight = (1,-1)[self.angle < 0]*math.cos(self.angle)*self.angle_dist * 1/self.length**3
         #print self.angle,self.length,self.weight
         #print self.weight, self.angle
 
