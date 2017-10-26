@@ -32,7 +32,8 @@ def main():
         b = 255/math.pi
         c = speed
         m1 = a*direction**2 + b*direction + c
-        m2 = -(a*direction**2 + b*direction + c)
+        m2 = a*direction**2 - b*direction + c
+        print m1,m2
         #print m1,m2
         send(m1,m2)
 
