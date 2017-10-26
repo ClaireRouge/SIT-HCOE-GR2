@@ -6,11 +6,11 @@ corner_counter = 0
 CORNER_MAX = 100
 MAX_DIR = math.pi/3
 PRE_TANH_COEFF = 0.2
-CORNER_WEIGHT = 0.0020
+CORNER_WEIGHT = 0.002
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.0005
-MAX_SPEED = 0.7
+SPEEDCOEF = 0.0004
+MAX_SPEED = 0.4
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
