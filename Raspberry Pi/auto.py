@@ -1,4 +1,4 @@
-import FearThePoints
+import FearVR
 import math
 import serial
 import struct
@@ -25,9 +25,9 @@ def main():
                     break
         print data
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
-        direction = FearThePoints.run(senddata)
-        m1 = (128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
-        m2 = (128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
+        speed,direction = FearThePoints.run(senddata)
+        m1 = speed*(128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
+        m2 = speed*(128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
         #print m1,m2
         send(m1,m2)
 
@@ -52,7 +52,10 @@ def getData():
     return retdata
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        send(0,0)
     #print getData(input(),input())
     #time.sleep(3)
     #send(0,2)

@@ -11,11 +11,11 @@
  */
 
 //#include <Wire.h>
-//#include <LIDARLite.h>
-//#include <Servo.h>
+#include <LIDARLite.h>
+#include <Servo.h>
 // Globals
-//LIDARLite lidarLite;
-//Servo myservo;
+LIDARLite lidarLite;
+Servo myservo;
 
 #define BRAKE 0
 #define CW    1
@@ -108,14 +108,11 @@ void setup()
 {
   Serial.begin(115200); // Initialize serial connection to display distance readings
 
-  //lidarLite.begin(0, true); // Set configuration to default and I2C to 400 kHz
-  //lidarLite.configure(0); // Change this number to try out alternate configurations
-  //myservo.attach(9);  // attaches the servo on pin 9 to the servo object
-  //myservo.write(45);
+  lidarLite.begin(0, true); // Set configuration to default and I2C to 400 kHz
+  lidarLite.configure(0); // Change this number to try out alternate configurations
+  myservo.attach(2);  // attaches the servo on pin 9 to the servo object
+  myservo.write(25);
   pinMode(LED_BUILTIN, OUTPUT); // for testing
-  while(Serial.available() < 2){
-     delay(1); 
-  }
 }
 
 void distance(){
@@ -123,23 +120,29 @@ void distance(){
   // At the beginning of every 100 readings,
   // take a measurement with receiver bias correction
   if ( cal_cnt == 0 ) {
-    //dist = lidarLite.distance();      // With bias correction
+    dist = lidarLite.distance();      // With bias correction
   } else {
-    //dist = lidarLite.distance(false); // Without bias correction
+    dist = lidarLite.distance(false); // Without bias correction
   }
 
   // Increment reading counter
   cal_cnt++;
   cal_cnt = cal_cnt % 100;
-  
-  data[curData][0] = random(1000);
-  data[curData][1] = pos;
-  curData++;
+  if (curData == 300){
+    int i;
+    for(i = curData-1;!(data[i-1][1] == data[curData-1][1] && data[i-2][1] == data[curData-2][1]); i--);
+    curData = i;
+    //Serial.println(i);
+    
+  }
+   data[curData][0] = dist;
+   data[curData][1] = pos;
+   curData++;
 }
 
 void sendData(){
-  
-  Serial.write(sizeof(int)*(curData)*2);
+  int sending = sizeof(int)*(curData)*2;
+  int bytessend = Serial.write((uint8_t*)(&sending),2);
   Serial.write((uint8_t*)data,sizeof(int)*(curData)*2);
   curData = 0;
   /*
@@ -154,37 +157,34 @@ void my_delay(int delaytime){
   unsigned long starttime = millis();
   //Serial.println("b")
   if (Serial.available() > 1) {
-    //Serial.println("c")
-    //m.setSpeed(1, (int(Serial.read())-128)*2);
-    //m.setSpeed(2, (int(Serial.read())-128)*2);
+    m.setSpeed(1, (int(Serial.read())-128)*2);
+    m.setSpeed(2, (int(Serial.read())-128)*2);
     int m1 = (int(Serial.read())-128)*2;
-    //Serial.println("d")
     int m2 = (int(Serial.read())-128)*2;
-    //Serial.println("e")
     sendData();
-    //Serial.println("f")
   }
   unsigned long endtime = millis();
   if(endtime -starttime < delaytime){
     delay(delaytime - (endtime -starttime));
-  } else{
-    digitalWrite(LED_BUILTIN, HIGH);
   }
 }
 
 void loop(){
-  for (pos = 20; pos <= 160; pos += 4) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
+  for (pos = 25; pos <= 155; pos += 10) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
+    //digitalWrite(LED_BUILTIN, HIGH);
     //Serial.print(pos);
     // in steps of 1 degree
-    //myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    
+    my_delay(40);                       // waits 15ms for the servo to reach the position
     distance();
-    my_delay(12);                       // waits 15ms for the servo to reach the position
   }
-  for (pos = 160; pos >= 20; pos -= 4) { // goes from 180 degrees to 0 degrees
-    //myservo.write(pos);              // tell servo to go to position in variable 'pos'
+  for (pos = 155; pos >= 25; pos -= 10) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    //digitalWrite(LED_BUILTIN, LOW);
     //Serial.print(pos);
+    
+    my_delay(40);                       // waits 15ms for the servo to reach the position
     distance();
-    my_delay(12);                       // waits 15ms for the servo to reach the position
   }
-  
 }
