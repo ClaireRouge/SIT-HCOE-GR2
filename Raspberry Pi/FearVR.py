@@ -9,7 +9,7 @@ PRE_TANH_COEFF = 0.2
 CORNER_WEIGHT = 0.0020
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 10
+SPEEDCOEF = 0.001
 
 
 def is_sorted(target,sortnum):
@@ -89,8 +89,8 @@ def run(point_data):
         corner_counter -= 1
     else:
         direction = math.tanh(direction) * MAX_DIR
-    #print direction
-    speed = SPEEDCOEF/(abs(left)+abs(right))
+    print abs(left),abs(right)
+    speed = math.tanh(SPEEDCOEF/(abs(left)+abs(right)))
     return speed,direction
 if __name__ == '__main__':
     run([(1,-90),(1,-30)])

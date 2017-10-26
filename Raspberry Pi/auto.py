@@ -17,13 +17,10 @@ def main():
         newData = getData()
         if newData != []:
             data.extend(newData)
-            print data
             for i in xrange(len(data)-2,0,-1): #starts at next to last element
                 if data[i][1] == data[-1][1] and data[i-1][1] == data[-2][1]:
-                    print i
                     data = data[i+1:]
                     break
-        print data
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         speed,direction = FearVR.run(senddata)
         print speed,direction
