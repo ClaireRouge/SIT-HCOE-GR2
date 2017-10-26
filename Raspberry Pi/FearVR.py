@@ -10,7 +10,7 @@ CORNER_WEIGHT = 0.0020
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
 SPEEDCOEF = 0.0001
-Max_SPEED = 0.8
+MAX_SPEED = 0.8
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
@@ -75,7 +75,7 @@ def run(point_data):
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
-    speed = math.tanh(SPEEDCOEF/(abs(left)+abs(right)))Max_SPEED
+    speed = math.tanh(SPEEDCOEF/(abs(left)+abs(right)))*MAX_SPEED
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
 
         corner_counter = CORNER_MAX
