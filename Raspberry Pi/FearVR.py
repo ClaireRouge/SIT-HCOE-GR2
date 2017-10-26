@@ -88,7 +88,7 @@ def run(point_data):
             direction = math.pi
             print "hi",direction
         else:
-            direction = (math.pi/2)*START_DIRECTION
+            direction = (math.pi/2 + 0.1)*START_DIRECTION
             print "hello",direction
         corner_counter -= 1
     else:
