@@ -65,8 +65,9 @@ def run(point_data):
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
-    softsign_x =  math.tanh(SPEEDCOEF/(abs(left)+abs(right)))*MAX_SPEED
-    speed = softsign_x/(1+abs(softsign_x))
+    softsign_x =  SPEEDCOEF/(abs(left)+abs(right))
+    print softsign_x
+    speed = softsign_x/(1+abs(softsign_x))*MAX_SPEED
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
 
         corner_counter = CORNER_MAX
