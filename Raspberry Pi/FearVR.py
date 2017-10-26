@@ -75,9 +75,9 @@ def run(point_data):
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
-
+    speed = math.tanh(SPEEDCOEF/(abs(left)+abs(right)))
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
-        print "hi"
+
         corner_counter = CORNER_MAX
         #pygame.time.wait(2000)
         #print corner_counter
@@ -85,13 +85,15 @@ def run(point_data):
         #its in a cornor
         if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
             direction = math.pi
+            print "hi",direction
         else:
             direction = (math.pi- math.pi/2*(PART_BACKWARD/CORNER_MAX))*START_DIRECTION
+            print "hello",direction
         corner_counter -= 1
     else:
         direction = math.tanh(direction) * MAX_DIR
     #sprint abs(left),abs(right)
-    speed = math.tanh(SPEEDCOEF/(abs(left)+abs(right)))
+
     return speed,direction
 if __name__ == '__main__':
     run([(1,-90),(1,-30)])
