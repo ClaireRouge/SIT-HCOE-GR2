@@ -58,24 +58,15 @@ def run(point_data):
     #They are now sorted
     points = get_points(point_data)
     direction = 0 #marks angel of direction
-    #k = []
-    #for i,v in enumerate(points):
-    #    if v.weight > 0:
-    #        k.append(i)
-    #print k,len(k)
-    #k = []
-    #for i,v in enumerate(points):
-    #    if v.weight < 0:
-    #        k.append(i)
-    #print k,len(k)
-    #print len([x.weight for x in points if x.weight < 0]),len([x.weight for x in points if x.weight > 0])
+
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])
 
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
-    speed = math.tanh(SPEEDCOEF/(abs(left)+abs(right)))*MAX_SPEED
+    softsign_x =  math.tanh(SPEEDCOEF/(abs(left)+abs(right)))*MAX_SPEED
+    speed = softsign_x/(1+abs(softsign_x))
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
 
         corner_counter = CORNER_MAX
@@ -83,7 +74,7 @@ def run(point_data):
         #print corner_counter
     if corner_counter != 0:
         #its in a cornor
-        speed = 0.3
+        speed = 0.25
         if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
             direction = math.pi
             print "hi",direction
