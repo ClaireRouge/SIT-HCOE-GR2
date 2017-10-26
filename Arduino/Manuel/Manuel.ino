@@ -72,15 +72,21 @@ class MotorControl {
 
 MotorControl m;
 
+
+// Hage pins
+int Q3 = 23;
+int Q2 = 25;
+int Q4 = 27;
+int Q1 = 29;
 void setHageSpeed(int s) {
-  if (motorSpeed > 0)
+  if (s > 0)
     {
       analogWrite(Q4, 0);
       analogWrite(Q1, 0);
       analogWrite(Q3, 255);
       analogWrite(Q2, s);
     }
-    else if (motorSpeed < 0)
+    else if (s < 0)
     {
       analogWrite(Q3, 0);
       analogWrite(Q2, 0);
