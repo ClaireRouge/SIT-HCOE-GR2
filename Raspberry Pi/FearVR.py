@@ -83,6 +83,7 @@ def run(point_data):
         #print corner_counter
     if corner_counter != 0:
         #its in a cornor
+        speed = 0.3
         if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
             direction = math.pi
             print "hi",direction

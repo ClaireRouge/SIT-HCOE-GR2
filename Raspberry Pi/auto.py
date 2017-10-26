@@ -54,6 +54,7 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         send(0,0)
+        print "send 0"
     #print getData(input(),input())
     #time.sleep(3)
     #send(0,2)
