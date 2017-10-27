@@ -31,7 +31,6 @@ def main():
             else:
                 seen_set.add(data[i][1])
             i -= 1
-        print sorted(seen_set)
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         avgspeed,direction = FearVR.run(senddata)
 

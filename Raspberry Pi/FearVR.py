@@ -5,12 +5,12 @@ import pygame
 corner_counter = 0
 CORNER_MAX = 100
 MAX_DIR = math.pi/2
-PRE_TANH_COEFF = 0.18
+PRE_TANH_COEFF = 0.16S
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
 SPEEDCOEF = 0.0045
-MAX_SPEED = 0.055
+MAX_SPEED = 0.045
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
@@ -82,7 +82,7 @@ def run(point_data):
     else:'''
     direction = math.tanh(direction)
     #sprint abs(left),abs(right)
-
+    print speed,direction
     return speed,direction
 
 if __name__ == '__main__':
