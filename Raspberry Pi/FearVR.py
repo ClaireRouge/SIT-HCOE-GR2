@@ -39,7 +39,7 @@ class Point(object):
         #print angle
         #creating a weight. Can be changed later
 
-        self.weight = self.angle*math.cos(self.angle)*self.angle_dist * 10000000/self.length**4
+        self.weight = self.angle*math.cos(self.angle)*self.angle_dist * 100000/self.length**3
         #print self.angle,self.length,self.weight
         #print self.weight, self.angle
 
@@ -56,8 +56,8 @@ def run(point_data):
 
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])
-    right *= 1.1
-    left *= 1.0
+    right *= 1.0
+    left *= 1.5
     print left,right
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
