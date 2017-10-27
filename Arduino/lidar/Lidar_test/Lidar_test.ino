@@ -179,21 +179,21 @@ void my_delay(int delaytime){
 }
 
 void loop(){
-  for (pos = 25; pos <= 155; pos += 10) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
+  for (pos = 15; pos <= 165; pos += 10) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
     //digitalWrite(LED_BUILTIN, HIGH);
     //Serial.print(pos);
     // in steps of 1 degree
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     
-    my_delay(40);                       // waits 15ms for the servo to reach the position
+    my_delay(55);                       // waits 15ms for the servo to reach the position
     distance();
   }
-  for (pos = 145; pos >= 35; pos -= 10) { // goes from 180 degrees to 0 degrees
+  for (pos = 165; pos >= 15; pos -= 10) { // goes from 180 degrees to 0 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     //digitalWrite(LED_BUILTIN, LOW);
     //Serial.print(pos);
     
-    my_delay(40);                       // waits 15ms for the servo to reach the position
+    my_delay(45);                       // waits 15ms for the servo to reach the position
     distance();
   }
 }
