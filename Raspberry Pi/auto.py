@@ -34,8 +34,8 @@ def main():
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         avgspeed,direction = FearVR.run(senddata)
 
-        avgspeed *= 215
-        m1 = m2 = avgspeed + abs(direction)*(225-abs(avgspeed))*numpy.sign(avgspeed)
+        avgspeed *= 235
+        m1 = m2 = avgspeed + abs(direction)*(235-abs(avgspeed))*numpy.sign(avgspeed)
 
         if direction > 0:
             m1 = avgspeed - abs(direction)*(avgspeed)
