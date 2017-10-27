@@ -10,7 +10,7 @@ ser = serial.Serial('/dev/ttyACM0', 115200)
 data = []
 
 dir = 0
-speed = 100
+speed = 70
 
 time.sleep(3)
 
@@ -38,14 +38,27 @@ def send(m1,m2):
 	
 	
 send(0,0)
-while (True):
-	m1 = speed
-	m2 = speed
-	getData()
-	for i in range(0, len(data)):
-		dir += (data[i][1]^3*1/1000 + 1/data[i])
-	if (dir < 0):
-		m1*=(1 - abs(dir))
-	else:
-		m2*=(1 - abs(dir))
-	send(m1, m2)
+def main():
+	while (True):
+		m1 = speed
+		m2 = speed
+		getData()
+		for i in range(0, len(data)):
+			dir += (data[i][1]^3*1/1000 + 1/data[i])
+		print dir
+		if (dir < 0):
+			m1*=(1 - abs(dir))
+		else:
+			m2*=(1 - abs(dir))
+		send(m1, m2)
+		
+try:
+    main()
+except serial.serialutil.SerialException:
+	try:
+        print "Connecting again"
+        ser
+        ser = serial.Serial('/dev/ttyACM0', 115200)
+        time.sleep(3)
+	except serial.serialutil.SerialException:
+		pass
