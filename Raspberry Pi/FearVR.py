@@ -8,7 +8,7 @@ PRE_TANH_COEFF = 0.08
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.3
+SPEEDCOEF = 0.03
 MAX_SPEED = 0.3
 
 def is_sorted(target,sortnum):
@@ -39,7 +39,7 @@ class Point(object):
         #print angle
         #creating a weight. Can be changed later
 
-        self.weight = self.angle*math.cos(self.angle)*self.angle_dist * 10000000/self.length**4
+        self.weight = self.angle*math.cos(self.angle)*self.angle_dist * 10000/self.length**2
         #print self.angle,self.length,self.weight
         #print self.weight, self.angle
 
