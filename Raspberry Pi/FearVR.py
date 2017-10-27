@@ -56,7 +56,7 @@ def run(point_data):
 
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])
-
+    print left,right
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
