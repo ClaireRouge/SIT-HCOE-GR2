@@ -74,18 +74,19 @@ def run(point_data):
         #print corner_counter
     if corner_counter != 0:
         #its in a cornor
-        speed = 0.25
+        speed = -0.25
         if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
-            direction = math.pi
+            direction = 0
             #print "hi",direction
         else:
-            direction = (math.pi/2 + 0.1)*START_DIRECTION
+            direction = START_DIRECTION
             #print "hello",direction
         corner_counter -= 1
     else:
-        direction = math.tanh(direction) * MAX_DIR
+        direction = math.tanh(direction)
     #sprint abs(left),abs(right)
 
     return speed,direction
+
 if __name__ == '__main__':
     run([(1,-90),(1,-30)])
