@@ -59,13 +59,19 @@ def getData():
 
 if __name__ == '__main__':
     try:
-        main()
-    except serial.serialutil.SerialException:
-        try:
-            print "Connecting again"
-            ser = serial.Serial('/dev/ttyACM0', 115200)
-            main()
-    finally:
+        while True:
+            try:
+                main()
+            except serial.serialutil.SerialException:
+                try:
+                    print "Connecting again"
+                    ser
+                    ser = serial.Serial('/dev/ttyACM0', 115200)
+                    time.sleep(3)
+                except serial.serialutil.SerialException:
+                    pass
+
+    except KeyboardInterrupt:
         ser.close()
         ser = serial.Serial('/dev/ttyACM0', 115200)
     #print getData(input(),input())
