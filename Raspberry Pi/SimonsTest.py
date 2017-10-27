@@ -39,6 +39,7 @@ def send(m1,m2):
 	
 send(0,0)
 def main():
+	global dir
 	while (True):
 		m1 = speed
 		m2 = speed
