@@ -4,12 +4,12 @@ import pygame
 
 corner_counter = 0
 CORNER_MAX = 100
-PRE_TANH_COEFF = 0.07
+PRE_TANH_COEFF = 0.1
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.080
-MAX_SPEED = 0.070
+SPEEDCOEF = 0.3
+MAX_SPEED = 0.10
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
