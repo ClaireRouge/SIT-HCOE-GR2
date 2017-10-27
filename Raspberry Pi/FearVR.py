@@ -4,8 +4,7 @@ import pygame
 
 corner_counter = 0
 CORNER_MAX = 100
-MAX_DIR = math.pi/2
-PRE_TANH_COEFF = 0.16S
+PRE_TANH_COEFF = 0.16
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
