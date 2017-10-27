@@ -63,6 +63,7 @@ def run(point_data):
     direction = (nom/denom) * PRE_TANH_COEFF
     softsign_x =  SPEEDCOEF/(abs(left)+abs(right))
     speed = softsign_x/(1+abs(softsign_x))*MAX_SPEED
+    '''
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
 
         corner_counter = CORNER_MAX
@@ -78,8 +79,8 @@ def run(point_data):
             direction = START_DIRECTION
             #print "hello",direction
         corner_counter -= 1
-    else:
-        direction = math.tanh(direction)
+    else:'''
+    direction = math.tanh(direction)
     #sprint abs(left),abs(right)
 
     return speed,direction
