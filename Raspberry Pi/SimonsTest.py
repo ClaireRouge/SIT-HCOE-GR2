@@ -53,12 +53,12 @@ def main():
 		send(m1, m2)
 		
 try:
-    main()
+	main()
 except serial.serialutil.SerialException:
 	try:
-        print "Connecting again"
-        ser
-        ser = serial.Serial('/dev/ttyACM0', 115200)
-        time.sleep(3)
+		print "Connecting again"
+		ser
+		ser = serial.Serial('/dev/ttyACM0', 115200)
+		time.sleep(3)
 	except serial.serialutil.SerialException:
 		pass
