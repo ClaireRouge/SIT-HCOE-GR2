@@ -55,10 +55,10 @@ def main():
 try:
     main()
 except serial.serialutil.SerialException:
-    try:
+	try:
         print "Connecting again"
         ser
         ser = serial.Serial('/dev/ttyACM0', 115200)
         time.sleep(3)
-except serial.serialutil.SerialException:
-    pass
+	except serial.serialutil.SerialException:
+		pass
