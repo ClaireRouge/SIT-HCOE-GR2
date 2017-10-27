@@ -8,6 +8,10 @@ data = []
 dir = 0
 speed = 100
 
+time.sleep(3)
+
+send(0,0)
+
 def getData():
     nrbytes = ser.read(2)
     nrbytes = struct.unpack('<h' , nrbytes)[0]
