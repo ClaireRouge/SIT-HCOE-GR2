@@ -10,7 +10,7 @@
  * http://static.garmin.com/pumac/LIDAR_Lite_v3_Operation_Manual_and_Technical_Specifications.pdf
  */
 
-//#include <Wire.h>
+#include <Wire.h>
 #include <LIDARLite.h>
 #include <Servo.h>
 // Globals
@@ -108,11 +108,18 @@ void setup()
 {
   Serial.begin(115200); // Initialize serial connection to display distance readings
 
+  //Serial.println("Kage");
+
   lidarLite.begin(0, true); // Set configuration to default and I2C to 400 kHz
+  //Serial.println("Kage2");
   lidarLite.configure(0); // Change this number to try out alternate configurations
+  //Serial.println("Kage3");
   myservo.attach(2);  // attaches the servo on pin 9 to the servo object
-  myservo.write(25);
+  //Serial.println("Kage4");
+  myservo.write(90);
+  //for(;;);
   pinMode(LED_BUILTIN, OUTPUT); // for testing
+  
 }
 
 void distance(){
@@ -170,21 +177,21 @@ void my_delay(int delaytime){
 }
 
 void loop(){
-  for (pos = 25; pos <= 155; pos += 10) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
+  for (pos = 25; pos <= 155; pos += 4) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
     //digitalWrite(LED_BUILTIN, HIGH);
     //Serial.print(pos);
     // in steps of 1 degree
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     
-    my_delay(40);                       // waits 15ms for the servo to reach the position
+    my_delay(35);                       // waits 15ms for the servo to reach the position
     distance();
   }
-  for (pos = 155; pos >= 25; pos -= 10) { // goes from 180 degrees to 0 degrees
+  for (pos = 155; pos >= 25; pos -= 4) { // goes from 180 degrees to 0 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     //digitalWrite(LED_BUILTIN, LOW);
     //Serial.print(pos);
     
-    my_delay(40);                       // waits 15ms for the servo to reach the position
+    my_delay(35);                       // waits 15ms for the servo to reach the position
     distance();
   }
 }
