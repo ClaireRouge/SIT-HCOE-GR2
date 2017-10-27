@@ -35,7 +35,7 @@ def main():
         avgspeed,direction = FearVR.run(senddata)
 
         avgspeed *= 215
-        m1 = m2 = avgspeed + abs(direction)*(215-abs(avgspeed))*numpy.sign(avgspeed)
+        m1 = m2 = avgspeed + abs(direction)*(225-abs(avgspeed))*numpy.sign(avgspeed)
 
         if direction > 0:
             m1 = avgspeed - abs(direction)*(avgspeed)
