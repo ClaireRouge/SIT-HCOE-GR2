@@ -10,7 +10,7 @@ speed = 100
 
 time.sleep(3)
 
-send(0,0)
+
 
 def getData():
     nrbytes = ser.read(2)
@@ -29,9 +29,11 @@ def getData():
     return retdata
 	
 def send(m1,m2):
-    #print "wrote:", chr(int(m1)/2+128) + chr(int(m2/2+128))
+    print m1, m2
     ser.write(chr(int(-m1)/2+128) + chr(int(-m2)/2+128))
 	
+	
+send(0,0)
 while (True):
 	m1 = speed
 	m2 = speed
