@@ -17,12 +17,21 @@ def main():
     data = []
     while True:
         newData = getData()
-        if newData != []:
-            data.extend(newData)
-            for i in xrange(len(data)-2,0,-1): #starts at next to last element
-                if data[i][1] == data[-1][1] and data[i-1][1] == data[-2][1]:
-                    data = data[i+1:]
-                    break
+        data.extend(newData)
+        #if newData != []:
+        #    for i in xrange(len(data)-2,0,-1): #starts at next to last element
+        #        if data[i][1] == data[-1][1] and data[i-1][1] == data[-2][1]:
+        #            data = data[i+1:]
+        #            break
+        seen_set = set()
+        i = len(data)-1
+        while i >= 0
+            if data[i][1] in seen_set:
+                del data[i]
+            else:
+                seen_set.add(data[i][1])
+            i -= 1
+        
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         avgspeed,direction = FearVR.run(senddata)
 

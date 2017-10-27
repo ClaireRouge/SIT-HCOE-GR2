@@ -5,12 +5,12 @@ import pygame
 corner_counter = 0
 CORNER_MAX = 100
 MAX_DIR = math.pi/2
-PRE_TANH_COEFF = 0.18
+PRE_TANH_COEFF = 0.12
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.006
-MAX_SPEED = 0.06
+SPEEDCOEF = 0.0045
+MAX_SPEED = 0.055
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
@@ -53,11 +53,7 @@ def run(point_data):
     speed as a fraction of total speed
     """
     global corner_counter
-    if not is_sorted(point_data,1):
-        sorted(point_data,key = lambda x:x[1])
-    #They are now sorted
     points = get_points(point_data)
-    direction = 0 #marks angel of direction
 
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])

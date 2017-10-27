@@ -142,7 +142,7 @@ void distance(){
     for(i = curData-1;!(data[i-1][1] == data[curData-1][1] && data[i-2][1] == data[curData-2][1]); i--);
     curData = i;
     //Serial.println(i);
-    
+    while(!Serial.available());
   }
    data[curData][0] = dist;
    data[curData][1] = pos;
@@ -179,7 +179,7 @@ void my_delay(int delaytime){
 }
 
 void loop(){
-  for (pos = 25; pos <= 155; pos += 4) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
+  for (pos = 25; pos <= 155; pos += 8) { // goes from 0 degrees to 180 degrees. Its important not to hit 90
     //digitalWrite(LED_BUILTIN, HIGH);
     //Serial.print(pos);
     // in steps of 1 degree
@@ -188,7 +188,7 @@ void loop(){
     my_delay(35);                       // waits 15ms for the servo to reach the position
     distance();
   }
-  for (pos = 155; pos >= 25; pos -= 4) { // goes from 180 degrees to 0 degrees
+  for (pos = 155; pos >= 25; pos -= 8) { // goes from 180 degrees to 0 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     //digitalWrite(LED_BUILTIN, LOW);
     //Serial.print(pos);
