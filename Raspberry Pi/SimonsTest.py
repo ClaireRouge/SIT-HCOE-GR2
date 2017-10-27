@@ -1,5 +1,9 @@
+import FearVR
+import math
 import serial
+import struct
 import time
+import numpy
 #SERIAL STUFF
 ser = serial.Serial('/dev/ttyACM0', 115200)
 
