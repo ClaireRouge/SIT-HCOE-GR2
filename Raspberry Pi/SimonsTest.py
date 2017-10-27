@@ -9,7 +9,7 @@ ser = serial.Serial('/dev/ttyACM0', 115200)
 
 data = []
 
-dir = 0
+dir = 0.0
 speed = 70
 
 time.sleep(3)
@@ -45,7 +45,7 @@ def main():
 		m2 = speed
 		getData()
 		for i in range(0, len(data)):
-			dir += (data[i][1]^3*1/1000 + 1/data[i])
+			dir += (data[i][1]^3*1/1000.0 + 1.0/data[i])
 		print dir
 		if (dir < 0):
 			m1*=(1 - abs(dir))
