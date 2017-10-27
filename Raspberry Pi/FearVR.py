@@ -8,8 +8,8 @@ PRE_TANH_COEFF = 0.07
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.030
-MAX_SPEED = 0.050
+SPEEDCOEF = 0.080
+MAX_SPEED = 0.070
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
