@@ -32,7 +32,7 @@ while True:
 			speed = 255*controllerIn[2]
 			m1 = speed
 			m2 = speed
-			m3 = controllerIn[1]*150
+			m3 = controllerIn[1]*255
 			if (controllerIn[0] < 0):
 				m1*=(1 - abs(controllerIn[0]))
 			else:

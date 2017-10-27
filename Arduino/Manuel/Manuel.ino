@@ -28,6 +28,8 @@
 class MotorControl {
     public:
     void setSpeed(int motor, int sped) {
+      if(sped > 255) sped = 255;
+      if(sped < -255) sped = -255;
       if (motor == 1) {
         if (sped < 0)
         {
@@ -72,29 +74,20 @@ class MotorControl {
 
 MotorControl m;
 
-
 // Hage pins
-int Q3 = 23;
-int Q2 = 25;
-int Q4 = 27;
-int Q1 = 29;
+int Q1 = 10;
+int Q2 = 11;
 void setHageSpeed(int s) {
   if (s > 0)
     {
-      analogWrite(Q4, 0);
       analogWrite(Q1, 0);
-      analogWrite(Q3, 255);
       analogWrite(Q2, s);
     }
     else if (s < 0)
     {
-      analogWrite(Q3, 0);
       analogWrite(Q2, 0);
-      analogWrite(Q4, 255);
       analogWrite(Q1, -s);
     } else {
-      analogWrite(Q3, 0);
-      analogWrite(Q4, 0);
       analogWrite(Q2, 0);
       analogWrite(Q1, 0);
     }
@@ -109,7 +102,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   //String s = "255 -255";
   //Serial.println(Serial.read());
-  if (Serial.available() > 1) {
+  if (Serial.available() > 2) {
     //String s = Serial.readString();
     //Serial.println(Serial.read());
     //int i = 0;
