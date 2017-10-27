@@ -31,7 +31,7 @@ def main():
             else:
                 seen_set.add(data[i][1])
             i -= 1
-
+        print seen_set
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         avgspeed,direction = FearVR.run(senddata)
 
@@ -43,7 +43,7 @@ def main():
         else:
             m2 = avgspeed - abs(direction)*(avgspeed)
 
-        print m1,m2,avgspeed
+        #print m1,m2,avgspeed
         send(m1,m2)
 
 def send(m1,m2):
