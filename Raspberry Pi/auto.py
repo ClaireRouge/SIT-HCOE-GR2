@@ -60,9 +60,14 @@ def getData():
 if __name__ == '__main__':
     try:
         main()
+    except serial.serialutil.SerialException:
+        try:
+            print "Connecting again"
+            ser = serial.Serial('/dev/ttyACM0', 115200)
+            main()
     finally:
+        ser.close()
         ser = serial.Serial('/dev/ttyACM0', 115200)
-        time.sleep(3)
     #print getData(input(),input())
     #time.sleep(3)
     #send(0,2)
