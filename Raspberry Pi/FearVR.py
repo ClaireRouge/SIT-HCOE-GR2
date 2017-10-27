@@ -9,7 +9,7 @@ CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
 SPEEDCOEF = 0.3
-MAX_SPEED = 0.10
+MAX_SPEED = 0.3
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
