@@ -8,7 +8,7 @@ PRE_TANH_COEFF = 0.08
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.25
+SPEEDCOEF = 0.3
 MAX_SPEED = 0.10
 
 def is_sorted(target,sortnum):
@@ -57,7 +57,7 @@ def run(point_data):
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])
     right *= 1.0
-    left *= 1.5
+    left *= 1.3
     print left,right
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
