@@ -3,12 +3,12 @@ import math
 import serial
 import struct
 import time
+import numpy
 #SERIAL STUFF
 ser = serial.Serial('/dev/ttyACM0', 115200)
 
 data = []
 
-MAX_SPEED = 0.4
 
 def main():
 
@@ -17,24 +17,32 @@ def main():
     data = []
     while True:
         newData = getData()
-        if newData != []:
-            data.extend(newData)
-            for i in xrange(len(data)-2,0,-1): #starts at next to last element
-                if data[i][1] == data[-1][1] and data[i-1][1] == data[-2][1]:
-                    data = data[i+1:]
-                    break
+        data.extend(newData)
+        #if newData != []:
+        #    for i in xrange(len(data)-2,0,-1): #starts at next to last element
+        #        if data[i][1] == data[-1][1] and data[i-1][1] == data[-2][1]:
+        #            data = data[i+1:]
+        #            break
+        seen_set = set()
+        i = len(data)-1
+        while i >= 0:
+            if data[i][1] in seen_set:
+                del data[i]
+            else:
+                seen_set.add(data[i][1])
+            i -= 1
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
-        speed,direction = FearVR.run(senddata)
-        #print speed,direction
-        #m1 = speed*(128 - int(128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
-        #m2 = speed*(128 - int(-128*math.sin(direction)))*(1,-1)[math.cos(direction) < 0]
-        a = (255-2*speed)/((math.pi**2)/2)
-        b = 255/math.pi
-        c = speed
-        m1 = a*direction**2 + b*direction + c
-        m2 = a*direction**2 - b*direction + c
-        print m1,m2
-        #print m1,m2
+        avgspeed,direction = FearVR.run(senddata)
+
+        avgspeed *= 255
+        m1 = m2 = avgspeed + abs(direction)*(255-abs(avgspeed))*numpy.sign(avgspeed)
+
+        if direction > 0:
+            m1 = avgspeed - abs(direction)*(avgspeed)
+        else:
+            m2 = avgspeed - abs(direction)*(avgspeed)
+
+        #print m1,m2,avgspeed
         send(m1,m2)
 
 def send(m1,m2):
@@ -59,10 +67,21 @@ def getData():
 
 if __name__ == '__main__':
     try:
-        main()
-    finally:
+        while True:
+            try:
+                main()
+            except serial.serialutil.SerialException:
+                try:
+                    print "Connecting again"
+                    ser
+                    ser = serial.Serial('/dev/ttyACM0', 115200)
+                    time.sleep(3)
+                except serial.serialutil.SerialException:
+                    pass
+
+    except KeyboardInterrupt:
+        ser.close()
         ser = serial.Serial('/dev/ttyACM0', 115200)
-        time.sleep(3)
     #print getData(input(),input())
     #time.sleep(3)
     #send(0,2)

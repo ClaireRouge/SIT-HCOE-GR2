@@ -4,13 +4,12 @@ import pygame
 
 corner_counter = 0
 CORNER_MAX = 100
-MAX_DIR = math.pi/2
-PRE_TANH_COEFF = 0.25
+PRE_TANH_COEFF = 0.07
 CORNER_WEIGHT = 0.004
 START_DIRECTION = -1
 PART_BACKWARD = 2.5
-SPEEDCOEF = 0.006
-MAX_SPEED = 0.4
+SPEEDCOEF = 0.080
+MAX_SPEED = 0.070
 
 def is_sorted(target,sortnum):
     for index,value in enumerate(target):
@@ -40,7 +39,7 @@ class Point(object):
         #print angle
         #creating a weight. Can be changed later
 
-        self.weight = (1,-1)[self.angle < 0]*math.cos(self.angle)*self.angle_dist * 1/self.length**3
+        self.weight = self.angle*math.cos(self.angle)*self.angle_dist * 10000000/self.length**4
         #print self.angle,self.length,self.weight
         #print self.weight, self.angle
 
@@ -53,20 +52,19 @@ def run(point_data):
     speed as a fraction of total speed
     """
     global corner_counter
-    if not is_sorted(point_data,1):
-        sorted(point_data,key = lambda x:x[1])
-    #They are now sorted
     points = get_points(point_data)
-    direction = 0 #marks angel of direction
 
     right = sum([x.weight for x in points if x.weight < 0])
     left =  sum([x.weight for x in points if x.weight > 0])
-
+    right *= 1.0
+    left *= 1.5
+    print left,right
     nom = (abs(left),abs(right))[abs(left)<abs(right)]
     denom = (left,right)[abs(left)>abs(right)]
     direction = (nom/denom) * PRE_TANH_COEFF
     softsign_x =  SPEEDCOEF/(abs(left)+abs(right))
     speed = softsign_x/(1+abs(softsign_x))*MAX_SPEED
+    '''
     if left > CORNER_WEIGHT and right < -CORNER_WEIGHT and direction < 2*PRE_TANH_COEFF and corner_counter == 0: #determined by testing
 
         corner_counter = CORNER_MAX
@@ -74,18 +72,19 @@ def run(point_data):
         #print corner_counter
     if corner_counter != 0:
         #its in a cornor
-        speed = 0.25
+        speed = -0.25
         if CORNER_MAX-corner_counter < CORNER_MAX/PART_BACKWARD:
-            direction = math.pi
+            direction = 0
             #print "hi",direction
         else:
-            direction = (math.pi/2 + 0.1)*START_DIRECTION
+            direction = START_DIRECTION
             #print "hello",direction
         corner_counter -= 1
-    else:
-        direction = math.tanh(direction) * MAX_DIR
+    else:'''
+    direction = math.tanh(direction)
     #sprint abs(left),abs(right)
-
+    print speed,direction
     return speed,direction
+
 if __name__ == '__main__':
     run([(1,-90),(1,-30)])
