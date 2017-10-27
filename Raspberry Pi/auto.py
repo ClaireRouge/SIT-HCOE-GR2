@@ -25,13 +25,13 @@ def main():
         #            break
         seen_set = set()
         i = len(data)-1
-        while i >= 0
+        while i >= 0:
             if data[i][1] in seen_set:
                 del data[i]
             else:
                 seen_set.add(data[i][1])
             i -= 1
-        
+
         senddata = map(lambda x: (x[0],x[1]/180.0*math.pi),data)
         avgspeed,direction = FearVR.run(senddata)
 
